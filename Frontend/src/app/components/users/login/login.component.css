@@ -1,0 +1,21 @@
+
+
+.invalid-feedback {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+.required {
+    display: inline-block;
+    margin-right: 5px;
+    color: red;
+}
+
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}

@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Sistema de Mediciones 
+            </div>
+            <div class="card-body">
+                
+                <form (ngSubmit)="signIn()" #form="ngForm">
+                    <div class="form-group">
+                        <label for="correo_usuario">
+                            <span class="required" *ngIf="submitted && (form.controls['correo_usuario'].invalid || form.controls['contrasenia'].invalid)">*</span>
+                            Correo electrónico:
+                        </label>
+                        <input type="email" [(ngModel)]="user.correo_usuario" name="correo_usuario" id="correo_usuario" class="form-control"
+                            placeholder="Correo electrónico" required #correo="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="contrasenia">
+                            <span class="required" *ngIf="submitted && (form.controls['correo_usuario'].invalid || form.controls['contrasenia'].invalid)">*</span>
+                            Contraseña:
+                        </label>
+                        <input type="password" [(ngModel)]="user.contrasenia" name="contrasenia" id="contrasenia" class="form-control"
+                            placeholder="Contraseña" required #contrasenia="ngModel">
+                    </div>
+                    <label *ngIf="submitted && errorMessage" class="error-message">{{ errorMessage }}</label>
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Iniciar sesión</button>
+                </form>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
