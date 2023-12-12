@@ -26,21 +26,21 @@ export const registerAdmin = async (req,res)=>{
     try {
         const admin = new Admin({Nombre,Apellido,id_usuario_pertenece});
         await admin.save();
-        res.json({admin:admin})
+        res.json({admin:admin});
     } catch (error) {
-        console.log(error)
-        res.json({error:error.name})
+        console.log(error);
+        res.json({error:error.name});
     }
 };
 export const registerPollster = async (req,res)=>{
-    const {Nombre,Apellido,id_usuario_pertenece}=req.body
+    const {Nombre,Apellido,id_usuario_pertenece}=req.body;
     try {
         const pollster = new Pollster({Nombre,Apellido,id_usuario_pertenece});
         await pollster.save();
-        res.json({pollster:pollster})
+        res.json({pollster:pollster});
     } catch (error) {
-        console.log(error)
-        res.json({error:error.name})
+        console.log(error);
+        res.json({error:error.name});
     }
 };
 
@@ -94,10 +94,8 @@ export const getIdRole = async (req, res) => {
 
  export const checkEmailBD  = async (req,res)=>{
     const { correo_usuario } = req.body;
-
     try {
         const email = await User.findOne({ where: { correo_usuario } });
-
         if (email) {
             return res.json(true); 
         } else {

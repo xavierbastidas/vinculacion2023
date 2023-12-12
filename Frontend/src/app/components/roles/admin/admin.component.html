@@ -1,4 +1,25 @@
-<h1>Bienvenido Administrador  : {{name}}  </h1>
-<li class="nav-item">
-    <a class="nav-link" routerLink="/sistema-mediciones/admin/register-pollster" routerLinkActive="active">Registar</a>
-  </li>
+<div class="container mt-4">
+  <div class="admin-home">
+    <header class="mb-4 pb-2 border-bottom">
+      <h1>Bienvenido Administrador <span class="admin-name">{{ name }}</span></h1>
+      <nav>
+        <ul class="list-unstyled d-flex">
+          <li class="mr-3">
+            <a routerLink="/sistema-mediciones/admin/register-pollster" class="text-decoration-none btn btn-primary">Crear Encuestador</a>
+          </li>
+          <li>
+            <a routerLink="/sistema-mediciones/admin/view-pollsters" class="text-decoration-none btn btn-secondary">Ver Lista de Encuestadores</a>
+          </li>
+          <!-- Agrega más enlaces de navegación según sea necesario -->
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="summary bg-light p-4 rounded">
+        <h2 class="mb-3">Resumen</h2>
+        <p>Aquí puedes agregar un resumen de la actividad, estadísticas importantes o cualquier otra información relevante para el administrador.</p>
+      </section>
+      <!-- Otras secciones o contenido principal -->
+    </main>
+  </div>
+</div>

@@ -21,8 +21,6 @@ successMessage : string = ' ';
 finalMessage :string = '';
 errorMessageToken : string = '';
 
-
-
 constructor(private userService: UsersService ){
  
 }
@@ -30,8 +28,6 @@ ngOnInit(): void {
 
  
 }
-
-
 
 
 createPollster() {
