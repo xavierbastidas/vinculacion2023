@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Admin } from '../models/admin';
 import { Pollster } from '../models/pollster';
 import { Observable ,throwError , catchError } from 'rxjs';
+import { environment , decryptData } from '../../environments/environment.prod';
 
 
 @Injectable({
@@ -31,23 +32,27 @@ export class UsersService {
     return this.http.post<User>(this.apiUrl+'login',user);
   }
   loggedIn() {
-  return  this.cookieService.check('token')
+  return  this.cookieService.check('2J_JER')
   }
   getToken(){
-    return this.cookieService.get('token');
+    return this.cookieService.get('2J_JER');
   }
   logout(){
-   this.cookieService.delete('token');
-   this.cookieService.delete('nombre');
+   this.cookieService.delete('2J_JER');
+   this.cookieService.delete('3P_ZAP');
    this.router.navigate(['/sistema-mediciones/login'])
   }
 
   getIdRole(id_usuario: number) {
     return this.http.get<number>(`${this.apiUrl}/${id_usuario}`);
   }
+
+
+ 
   
   getUserIdFromToken(): number | null {
-    const token = this.getToken();
+    const JJER = this.getToken();
+    const token  = decryptData(JJER,environment.SECRET);
     if (token) {
       const tokenParts = token.split('.');
       if (tokenParts.length === 3) {

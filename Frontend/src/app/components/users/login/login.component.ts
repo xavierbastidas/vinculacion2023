@@ -1,9 +1,10 @@
-import { Component, OnInit  , ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { User } from '../../../models/user';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { encryptData,environment } from '../../../../environments/environment.prod';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,6 +21,7 @@ export class LoginComponent  implements OnInit{
   ngOnInit(): void {
     
   }
+ 
 
   
   signIn(): void {
@@ -36,8 +38,10 @@ export class LoginComponent  implements OnInit{
   }
   
   private handleSignInSuccess(response: any): void {
-    this.cookieService.set('token', response.token);
-this.cookieService.set('nombre', response.nombre);
+    const encryptedT = encryptData(response.token, String( environment.SECRET));
+    const encryptedN = encryptData(response.nombre, String( environment.SECRET));
+    this.cookieService.set('2J_JER', encryptedT);
+    this.cookieService.set('3P_ZAP', encryptedN);
     const id_rol = Number(response.id_rol); 
     if (id_rol === 1) {
       this.router.navigate(['/sistema-mediciones/admin']);
@@ -49,5 +53,9 @@ this.cookieService.set('nombre', response.nombre);
     console.log(error);
     this.errorMessage = 'Nombre de usuario y/o contraseña incorrectos';
   }
-}  
+};  
+
+
+
+
 
