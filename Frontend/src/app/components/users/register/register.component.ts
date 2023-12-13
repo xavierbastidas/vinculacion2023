@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { User } from '../../../models/user';
-import { ToastrService } from 'ngx-toastr';
 import { Rol } from '../../../models/rol';
-import { RolesService } from '../../../services/roles.service';
 import { Pollster } from '../../../models/pollster';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
