@@ -5,6 +5,7 @@ import authRoute from './routes/auth.route.js'
 import cors from 'cors'
 import cookieParser from "cookie-parser"
 import roleRoute from './routes/role.route.js'
+import formRoute from './routes/form.route.js'
 const app = express();
 
 const corsOptions = {
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use("/api/v1/users",authRoute);
 app.use("/api/v1/roles",roleRoute);
+app.use("/api/v1/form",formRoute)
 const PORT = process.env.PORT;
 app.listen(PORT,()=>console.log(`http://localhost:${PORT}`));
 

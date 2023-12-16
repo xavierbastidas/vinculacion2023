@@ -26,12 +26,8 @@ const Worker = db.define('trabajador', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  id_puesto_trabajo: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  id_atividad_realiza: {
-    type: DataTypes.INTEGER,
+  departamento_area: {
+    type: DataTypes.STRING(100),
     allowNull: false,
   },
   imagen_trabajador1: {
@@ -41,11 +37,7 @@ const Worker = db.define('trabajador', {
   imagen_trabajador2: {
     type: DataTypes.BLOB,
     allowNull: false,
-  },
-  id_usuario_pertenece: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
+  }
   
 }, {
   tableName: 'trabajador',
