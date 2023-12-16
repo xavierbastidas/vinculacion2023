@@ -15,3 +15,5 @@ db.authenticate()
   });
 
 export default db;
+
+

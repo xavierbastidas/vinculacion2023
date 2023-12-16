@@ -15,15 +15,11 @@ router.post(
 router.post("/login",
 bodyLoginValidator,
 login);
-
 router.post("/admin",bodyRegisterValidatorAP,registerAdmin);
-
 router.post("/pollster",bodyRegisterValidatorAP,registerPollster);
-
 router.get("/:id_usuario", getIdRole);
-router.post("/checkEmailBD",checkEmailBD)
-
-    
+router.post("/checkEmailBD",checkEmailBD)  
 export default router;
+
 
 
