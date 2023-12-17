@@ -3,6 +3,7 @@ import { DataTypes } from 'sequelize';
 const SittingMeasurements= db.define('mediciones_sentado', {
   id_medicion: {
     type: DataTypes.INTEGER,
+    autoIncrement:true,
     primaryKey: true,
     allowNull: false,
   },
@@ -52,7 +53,7 @@ const SittingMeasurements= db.define('mediciones_sentado', {
     allowNull: false,
   },
   id_trabajador_pertenece: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {

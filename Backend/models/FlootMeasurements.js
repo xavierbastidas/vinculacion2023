@@ -4,6 +4,7 @@ const FlootMeasurements= db.define('mediciones_de_pie', {
   id_medicion: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement:true,
     allowNull: false,
   },
   masa: {

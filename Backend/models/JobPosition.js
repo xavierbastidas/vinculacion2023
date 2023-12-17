@@ -2,16 +2,20 @@ import db from "../database/connection.js"
 import { DataTypes } from 'sequelize';
 const JobPosition = db.define('puesto_trabajo', {
   id_puesto_trabajo: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(10),
     primaryKey: true,
     allowNull: false,
   },
-  Nombre: {
+  departamento_area: {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
-  Descripcion: {
-    type: DataTypes.STRING(250),
+  descripcion: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  id_campus_pertenece: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   }
 }, {
