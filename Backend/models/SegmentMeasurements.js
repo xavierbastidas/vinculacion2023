@@ -4,6 +4,7 @@ const SegmentMeasurements= db.define('mediciones_segmentos_corporales', {
   id_medicion: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement:true,
     allowNull: false,
   },
   longitud_mano: {
@@ -42,7 +43,10 @@ const SegmentMeasurements= db.define('mediciones_segmentos_corporales', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-
+  ancho_cabeza: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
   circunferencia_cabeza: {
     type: DataTypes.FLOAT,
     allowNull: false,
@@ -69,7 +73,7 @@ const SegmentMeasurements= db.define('mediciones_segmentos_corporales', {
   },
   
   id_trabajador_pertenece: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {

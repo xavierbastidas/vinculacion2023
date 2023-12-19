@@ -13,13 +13,19 @@ import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PollsterComponent } from './components/roles/pollster/pollster.component';
+import { PagenotfoundComponent } from './pages/pagenotfound/pagenotfound.component';
+import { RegistersurveyComponent } from './components/survey/registersurvey/registersurvey.component';
+import { ViewsurveyComponent } from './components/survey/viewsurvey/viewsurvey.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     AdminComponent,
-    PollsterComponent
+    PollsterComponent,
+    PagenotfoundComponent,
+    RegistersurveyComponent,
+    ViewsurveyComponent
   ],
   imports: [
     BrowserModule,

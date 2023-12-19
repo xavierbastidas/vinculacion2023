@@ -3,6 +3,7 @@ import { DataTypes } from 'sequelize';
 const Activity = db.define('actividad', {
   id_actividad: {
     type: DataTypes.INTEGER,
+    autoIncrement:true,
     primaryKey: true,
     allowNull: false,
   },
@@ -10,16 +11,8 @@ const Activity = db.define('actividad', {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
-  descripcion_1: {
+  descripcion: {
     type: DataTypes.STRING(250),
-    allowNull: false,
-  },
-  descripcion_2: {
-    type: DataTypes.STRING(250),
-    allowNull: false,
-  },
-  id_trabajador: {
-    type: DataTypes.STRING(10),
     allowNull: false,
   },
   imagen1:{
@@ -33,9 +26,13 @@ const Activity = db.define('actividad', {
   imagen3:{
     type:DataTypes.BLOB,
     allowNull:false
-  }
+  },
+  id_trabajador_pertenece: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
-  tableName: 'puesto_trabajo',
+  tableName: 'actividad',
   timestamps: false,
   charset: 'latin1',
   engine: 'InnoDB',

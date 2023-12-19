@@ -1,0 +1,93 @@
+<div class="container">
+    <div>
+        <h1 class="text-center mt-4 mb-3">Evaluación</h1>
+    </div>
+    
+    <div>
+        <h2 class="text-center mb-4">Datos del Puesto</h2>
+    </div>
+    
+    <form (ngSubmit)="createJobPosition()" #form="ngForm" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="identificador">Identificador del puesto de trabajo:</label>
+                    <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="campus">Campus:</label>
+                    <select [(ngModel)]="selectedCampus.id_campus" id="campus" name="campus" class="form-control">
+                        <option *ngFor="let c of campus" [ngValue]="c.id_campus">{{ c.nombre_campus }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="departamento">Departamento/Area:</label>
+                    <input [(ngModel)]="jobP.departamento_area" type="text" id="departamento" name="departamento" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <input [(ngModel)]="jobP.descripcion" type="text" id="descripcion" name="descripcion" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="mb-3">Datos del Trabajador</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input [(ngModel)]="worker.Nombre" type="text" id="nombre" name="nombre" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input [(ngModel)]="worker.Apellido" type="text" id="apellido" name="apellido" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edad">Edad:</label>
+                        <input [(ngModel)]="worker.Edad" type="number" id="edad" name="edad" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="genero">Género:</label>
+                        <select [(ngModel)]="worker.Genero" id="genero" name="genero" class="form-control">
+                            <option value="true">Masculino</option>
+                            <option value="false">Femenino</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="imagen1">Imagen 1:</label>
+                        <input type="file" (change)="onFileSelected($event, 'imagen_trabajador1')" name="imagen1" class="form-control">
+                      
+                    </div>
+                    <div class="form-group">
+                        <label for="imagen2">Imagen 2:</label>
+                        <input type="file" (change)="onFileSelected($event, 'imagen_trabajador2')" name="imagen2" class="form-control">
+                        
+                    </div>
+                    
+
+
+                </div>
+            </div>
+        </div>
+    
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+        </div>
+    </form>
+</div>
+

@@ -3,6 +3,7 @@ import { DataTypes } from 'sequelize';
 const FunctionalMeasurements= db.define('mediciones_funcionales', {
   id_medicion: {
     type: DataTypes.INTEGER,
+    autoIncrement:true,
     primaryKey: true,
     allowNull: false,
   },
@@ -39,11 +40,11 @@ const FunctionalMeasurements= db.define('mediciones_funcionales', {
     allowNull: false,
   },
   id_trabajador_pertenece: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {
-  tableName: 'mmediciones_funcionales',
+  tableName: 'mediciones_funcionales',
   timestamps: false,
   charset: 'latin1',
   engine: 'InnoDB',

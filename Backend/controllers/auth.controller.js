@@ -14,10 +14,10 @@ export const register = async (req,res)=>{
         const new_User = new User({correo_usuario,contrasenia,id_rol_pertenece});
         await new_User.save();
         const { id_usuario } = new_User.toJSON();
-        res.json(id_usuario);
+        res.status(201).json(id_usuario);
     } catch (error) {
         console.log(error)
-        res.json({error:error.name})
+        res.status(500).json({error:error})
     }
 };
 
@@ -26,10 +26,9 @@ export const registerAdmin = async (req,res)=>{
     try {
         const admin = new Admin({Nombre,Apellido,id_usuario_pertenece});
         await admin.save();
-        res.json({admin:admin});
+        res.status(201).json({admin:admin});
     } catch (error) {
-        console.log(error);
-        res.json({error:error.name});
+        res.status(500).json({error:error});
     }
 };
 export const registerPollster = async (req,res)=>{
@@ -37,10 +36,9 @@ export const registerPollster = async (req,res)=>{
     try {
         const pollster = new Pollster({Nombre,Apellido,id_usuario_pertenece});
         await pollster.save();
-        res.json({pollster:pollster});
+        res.status(201).json({pollster:pollster});
     } catch (error) {
-        console.log(error);
-        res.json({error:error.name});
+        res.status(500).json({error:error});
     }
 };
 
@@ -71,7 +69,7 @@ export const login = async (req, res) => {
         }
         res.json({ token, id_rol, nombre });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error });
     }
 };
 
@@ -87,7 +85,7 @@ export const getIdRole = async (req, res) => {
         return res.status(404).json({ error: 'User not found' });
       }
     } catch (error) {
-      return res.status(500).json({ error: 'Internal server error' });
+      return res.status(500).json({ error: error });
     }
   };
   
@@ -102,7 +100,6 @@ export const getIdRole = async (req, res) => {
             return res.json(false); 
         }
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ error: '"Error verifying the email' });
     }
  }

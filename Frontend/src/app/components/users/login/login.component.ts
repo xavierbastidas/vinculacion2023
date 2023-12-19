@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { User } from '../../../models/user';
-import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { encryptData,environment } from '../../../../environments/environment.prod';
@@ -14,7 +13,7 @@ export class LoginComponent  implements OnInit{
   user : User = {} as User;
   submitted = false;
   errorMessage: string = '';
-  constructor(private userService : UsersService , private toastr:ToastrService ,
+  constructor(private userService : UsersService ,
     private router : Router , private cookieService : CookieService){
 
   }

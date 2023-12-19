@@ -20,7 +20,7 @@ const Worker = db.define('trabajador', {
     allowNull: false,
   },
   Genero: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
   imagen_trabajador1: {

@@ -32,7 +32,7 @@ export class UsersService {
     return this.http.post<User>(this.apiUrl+'login',user);
   }
   loggedIn() {
-  return  this.cookieService.check('2J_JER')
+  return  this.cookieService.check('2J_JER');
   }
   getToken(){
     return this.cookieService.get('2J_JER');
@@ -40,7 +40,7 @@ export class UsersService {
   logout(){
    this.cookieService.delete('2J_JER');
    this.cookieService.delete('3P_ZAP');
-   this.router.navigate(['/sistema-mediciones/login'])
+   this.router.navigate(['/sistema-mediciones/login']);
   }
 
   getIdRole(id_usuario: number) {
