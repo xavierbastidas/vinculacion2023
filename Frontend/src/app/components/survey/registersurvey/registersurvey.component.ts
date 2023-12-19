@@ -18,8 +18,12 @@ export class RegistersurveyComponent implements OnInit{
   selectedCampus :Campus = {} as Campus;
   jobP : JobPosition = {} as JobPosition;
   worker : Worker = {} as Worker;
+  workerAux : any;
   constructor(private formService : FormService , private uploadService : UploadService){
-
+    this.workerAux = {
+      imagen_trabajador1: { file: null, url: null },
+      imagen_trabajador2: { file: null, url: null }
+    };
   }
   ngOnInit(): void {
   this.getCampus()
@@ -37,17 +41,24 @@ export class RegistersurveyComponent implements OnInit{
     );
   }
 
+ 
   onFileSelected(event: any, property: string) {
     const file: File = event.target.files[0];
     if (file) {
-      if (property === 'imagen_trabajador1') {
-        this.worker.imagen_trabajador1 = file;
-      } else if (property === 'imagen_trabajador2') {
-        this.worker.imagen_trabajador2 = file;
-      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (property === 'imagen_trabajador1') {
+          this.workerAux.imagen_trabajador1.file = file;
+          this.workerAux.imagen_trabajador1.url = reader.result as string;
+        } else if (property === 'imagen_trabajador2') {
+          this.workerAux.imagen_trabajador2.file = file;
+          this.workerAux.imagen_trabajador2.url = reader.result as string;
+        }
+      };
+      reader.readAsDataURL(file);
     }
   }
-
+  
 
   createJobPosition() {
     const jobP = {
@@ -59,6 +70,9 @@ export class RegistersurveyComponent implements OnInit{
   
     this.formService.createJobPosition(jobP).subscribe(
       () => {
+
+        this.worker.imagen_trabajador1  = this.workerAux.imagen_trabajador1.file;
+        this.worker.imagen_trabajador2 = this.workerAux.imagen_trabajador2.file;
         const image1 = this.worker.imagen_trabajador1;
         const image2 = this.worker.imagen_trabajador2;
   
