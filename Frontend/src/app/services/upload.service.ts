@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 
 
@@ -9,7 +10,7 @@ import { throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class UploadService {
-  apiUrl = "http://localhost:3000/api/v1/images/"
+  apiUrl = environment.apiUrlImage;
   constructor(private http : HttpClient ) { }
   
   uploadImage(file: File): Observable<any> {

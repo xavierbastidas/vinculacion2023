@@ -4,8 +4,8 @@ import { Campus } from '../../../models/campus';
 import { JobPosition } from '../../../models/jposition';
 import { Worker } from '../../../models/worker';
 import { UploadService } from '../../../services/upload.service';
-import { forkJoin, throwError } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
+import { forkJoin, map } from 'rxjs';
+import { FlootMeasurements } from '../../../models/fmeasures';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class RegistersurveyComponent implements OnInit{
   jobP : JobPosition = {} as JobPosition;
   worker : Worker = {} as Worker;
   workerAux : any;
+  flootM : FlootMeasurements = {} as FlootMeasurements;
   constructor(private formService : FormService , private uploadService : UploadService){
     this.workerAux = {
       imagen_trabajador1: { file: null, url: null },
@@ -60,65 +61,76 @@ export class RegistersurveyComponent implements OnInit{
   }
   
 
-  createJobPosition() {
-    const jobP = {
+  createEval() {
+    const jobPosition = {
       id_puesto_trabajo: this.jobP.id_puesto_trabajo,
       departamento_area: this.jobP.departamento_area,
-      descripcion: this.jobP.descripcion,
       id_campus_pertenece: this.selectedCampus.id_campus
     };
   
-    this.formService.createJobPosition(jobP).subscribe(
-      () => {
-
-        this.worker.imagen_trabajador1  = this.workerAux.imagen_trabajador1.file;
-        this.worker.imagen_trabajador2 = this.workerAux.imagen_trabajador2.file;
-        const image1 = this.worker.imagen_trabajador1;
-        const image2 = this.worker.imagen_trabajador2;
+    const image1 = this.workerAux.imagen_trabajador1.file;
+    const image2 = this.workerAux.imagen_trabajador2.file;
   
-        if (!image1 || !image2) {
-          console.error('No se han seleccionado todas las imágenes.');
-          return;
-        }
+    if (!image1 || !image2) {
+      console.error('No se han seleccionado todas las imágenes.');
+      return;
+    }
   
-        this.uploadService.uploadImage(image1).subscribe(
-          (response1: any) => {
-            this.uploadService.uploadImage(image2).subscribe(
-              (response2: any) => {
-                const worker = {
-                  Nombre: this.worker.Nombre,
-                  Apellido: this.worker.Apellido,
-                  Edad: this.worker.Edad,
-                  Genero: this.worker.Genero,
-                  imagen_trabajador1: response1.imageUrl,
-                  imagen_trabajador2: response2.imageUrl,
-                  id_puesto_trabajo: jobP.id_puesto_trabajo
+    const uploadImage1$ = this.uploadService.uploadImage(image1);
+    const uploadImage2$ = this.uploadService.uploadImage(image2);
+  
+    forkJoin({ image1: uploadImage1$, image2: uploadImage2$ }).pipe(
+      map((responses: any) => ({
+        imagen_trabajador1: responses.image1.imageUrl,
+        imagen_trabajador2: responses.image2.imageUrl
+      }))
+    ).subscribe(
+      (imageUrls: any) => {
+        const workerData = {
+          Nombre: this.worker.Nombre,
+          Apellido: this.worker.Apellido,
+          Edad: this.worker.Edad,
+          Genero: this.worker.Genero,
+          id_puesto_trabajo: jobPosition.id_puesto_trabajo,
+          ...imageUrls
+        };
+  
+        this.formService.createJobPosition(jobPosition).subscribe(
+          () => {
+            this.formService.createWorker(workerData).subscribe(
+              (response: any) => {
+                const flootMeasures = {
+                  masa: this.flootM.masa,
+                  estatura: this.flootM.estatura,
+                  altura_ojo: this.flootM.altura_ojo,
+                  altura_hombro: this.flootM.altura_hombro,
+                  altura_codo: this.flootM.altura_codo,
+                  altura_entre_pierna: this.flootM.altura_entre_pierna,
+                  profundidad_cuerpo_de_pie: this.flootM.profundidad_cuerpo_de_pie,
+                  anchura_cadera_pie: this.flootM.anchura_cadera_pie,
+                  id_trabajador_pertenece: response
                 };
   
-                this.formService.createWorker(worker).subscribe(
-                  () => {
-                    console.log('¡Trabajador creado con éxito!');
-                  },
-                  (error) => {
-                    console.error('Error al crear trabajador:', error);
-                  }
-                );
+                this.formService.flootMeasuresment(flootMeasures).subscribe(() => {
+                  console.log("Mediciones creadas exitosamente");
+                });
               },
               (error) => {
-                console.error('Error al subir imagen 2:', error);
+                console.error('Error al crear trabajador:', error);
               }
             );
           },
           (error) => {
-            console.error('Error al subir imagen 1:', error);
+            console.error('Error al crear puesto de trabajo:', error);
           }
         );
       },
       (error) => {
-        console.error('Error al crear puesto de trabajo:', error);
+        console.error('Error al subir imagen:', error);
       }
     );
   }
+  
   
   
 }

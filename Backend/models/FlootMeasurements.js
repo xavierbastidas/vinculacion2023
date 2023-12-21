@@ -40,7 +40,7 @@ const FlootMeasurements= db.define('mediciones_de_pie', {
     allowNull: false,
   },
   id_trabajador_pertenece: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {

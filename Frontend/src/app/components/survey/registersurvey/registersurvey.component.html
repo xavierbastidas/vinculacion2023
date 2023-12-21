@@ -1,113 +1,136 @@
-
 <div class="container">
     <div>
         <h1 class="text-center mt-4 mb-3">Evaluación</h1>
     </div>
-    
-    <div>
-        <h2 class="text-center mb-4">Datos del Puesto</h2>
-    </div>
-    
-    <form (ngSubmit)="createJobPosition()" #form="ngForm" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="identificador">Identificador del puesto de trabajo:</label>
-                    <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control">
+    <form (ngSubmit)="createEval()" #evaluationForm="ngForm" enctype="multipart/form-data">
+        <div>
+            <h2 class="text-center mb-4">Datos del Puesto</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="identificador">Identificador del puesto de trabajo:</label>
+                        <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="campus">Campus:</label>
+                        <select [(ngModel)]="selectedCampus.id_campus" id="campus" name="campus" class="form-control">
+                            <option *ngFor="let c of campus" [ngValue]="c.id_campus">{{ c.nombre_campus }}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="campus">Campus:</label>
-                    <select [(ngModel)]="selectedCampus.id_campus" id="campus" name="campus" class="form-control">
-                        <option *ngFor="let c of campus" [ngValue]="c.id_campus">{{ c.nombre_campus }}</option>
-                    </select>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="departamento">Departamento/Area:</label>
+                        <input [(ngModel)]="jobP.departamento_area" type="text" id="departamento" name="departamento" class="form-control">
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="departamento">Departamento/Area:</label>
-                    <input [(ngModel)]="jobP.departamento_area" type="text" id="departamento" name="departamento" class="form-control">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="descripcion">Descripción:</label>
-                    <input [(ngModel)]="jobP.descripcion" type="text" id="descripcion" name="descripcion" class="form-control">
-                </div>
-            </div>
-        </div>
-
         <div>
-            <h2 class="mb-3">Datos del Trabajador</h2>
+            <h2 class="mb-3 text-center">Datos del Trabajador</h2>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="nombre">Nombre:</label>
+                        <label for="nombre">Nombres:</label>
                         <input [(ngModel)]="worker.Nombre" type="text" id="nombre" name="nombre" class="form-control">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="apellido">Apellido:</label>
-                        <input [(ngModel)]="worker.Apellido" type="text" id="apellido" name="apellido" class="form-control">
-                    </div>
-
-                </div>
-                <div class="col-md-6">
                     <div class="form-group">
                         <label for="genero">Género:</label>
                         <select [(ngModel)]="worker.Genero" id="genero" name="genero" class="form-control">
                             <option value="true">Masculino</option>
                             <option value="false">Femenino</option>
                         </select>
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="apellido">Apellidos:</label>
+                        <input [(ngModel)]="worker.Apellido" type="text" id="apellido" name="apellido" class="form-control">
                     </div>
+                   
                     <div class="form-group">
                         <label for="edad">Edad:</label>
                         <input [(ngModel)]="worker.Edad" type="number" id="edad" name="edad" class="form-control">
                     </div>
                 </div>
             </div>
-            
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="imagen1">Imagen 1:</label>
-                        <div>
-                            <input type="file" (change)="onFileSelected($event, 'imagen_trabajador1')" name="imagen1" class="form-control">
+                        <label for="imagen1" class="form-label">Imagen 1:</label>
+                        <div class="input-group mb-3">
+                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen1" (change)="onFileSelected($event, 'imagen_trabajador1')" name="imagen1" accept="image/*">
                         </div>
                         <div>
-                            <img
-                                *ngIf="workerAux?.imagen_trabajador1?.url"
-                                [src]="workerAux.imagen_trabajador1.url"
-                                alt="Imagen 1"
-                                style="width: 60px; height: 60px;">
+                            <img *ngIf="workerAux?.imagen_trabajador1?.url" [src]="workerAux.imagen_trabajador1.url" alt="Imagen 1" style="width: 140px; height: 120px;">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="imagen2">Imagen 2:</label>
-                        <div>
-                            <input type="file" (change)="onFileSelected($event, 'imagen_trabajador2')" name="imagen2" class="form-control">
+                        <label for="imagen2" class="form-label">Imagen 2:</label>
+                        <div class="input-group mb-3">
+                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen2" (change)="onFileSelected($event, 'imagen_trabajador2')" name="imagen2" accept="image/*">
                         </div>
                         <div>
-                            <img
-                                *ngIf="workerAux?.imagen_trabajador2?.url"
-                                [src]="workerAux.imagen_trabajador2.url"
-                                alt="Imagen 2"
-                                style="width: 60px; height: 60px;">
+                            <img *ngIf="workerAux?.imagen_trabajador2?.url" [src]="workerAux.imagen_trabajador2.url" alt="Imagen 2" style="width: 140px; height: 120px;">
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+        <div>
+            <h2 class="text-center">Mediciones Antropométricas básicas</h2>
+            <p class="text-center">Mediciones tomadas mientras la persona está de pie</p>
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="form-group">
+                        <label for="masa">Masa (Kg):</label>
+                        <input [(ngModel)]="flootM.masa" type="number" id="masa" name="masa" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="estatura">Estatura (cm):</label>
+                        <input [(ngModel)]="flootM.estatura" type="number" id="estatura" name="estatura" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="altura-ojo">Altura ojo (cm):</label>
+                        <input [(ngModel)]="flootM.altura_ojo"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="altura-hombro">Altura hombro (cm):</label>
+                        <input [(ngModel)]="flootM.altura_hombro"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="altura-codo">Altura codo (cm):</label>
+                        <input [(ngModel)]="flootM.altura_codo"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="altura-entrepierna">Altura entrepierna (cm):</label>
+                        <input [(ngModel)]="flootM.altura_entre_pierna"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="profundidad-cuerpo">Profundidad del cuerpo (cm):</label>
+                        <input  [(ngModel)]="flootM.profundidad_cuerpo_de_pie"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="altura-cadera">Altura de la cadera (cm):</label>
+                        <input [(ngModel)]="flootM.anchura_cadera_pie"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                    </div>
+                </div>
             </div>
+        </div>
+
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
         </div>
     </form>
 </div>

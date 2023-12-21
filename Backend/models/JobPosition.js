@@ -10,10 +10,6 @@ const JobPosition = db.define('puesto_trabajo', {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
-  descripcion: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-  },
   id_campus_pertenece: {
     type: DataTypes.INTEGER,
     allowNull: false,

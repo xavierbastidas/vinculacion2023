@@ -13,7 +13,7 @@ import { environment , decryptData } from '../../environments/environment.prod';
   providedIn: 'root'
 })
 export class UsersService {
-  apiUrl = "http://localhost:3000/api/v1/users/"
+  apiUrl = environment.apiUrlAuth;
   constructor(private http : HttpClient , private router :Router , @Inject(CookieService) private cookieService: CookieService) { }
   signUpUser(user:User){
    return this.http.post<User>(this.apiUrl+'register',user).pipe(

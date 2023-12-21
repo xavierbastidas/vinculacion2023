@@ -9,11 +9,11 @@ import Campus from '../models/Campus.js';
 
 export const createJobPosition = async (req,res)=>{
 
-  const {id_puesto_trabajo,departamento_area,descripcion,id_campus_pertenece}= req.body;
+  const {id_puesto_trabajo,departamento_area,id_campus_pertenece}= req.body;
   
   try {
     const jobPosition =  new JobPosition({id_puesto_trabajo,departamento_area,
-      descripcion,id_campus_pertenece});
+    id_campus_pertenece});
     await jobPosition.save()
     res.status(201).json({job_position:jobPosition})
   } catch (error) {
@@ -35,9 +35,9 @@ export const createWorker = async (req, res) => {
       imagen_trabajador2,
       id_puesto_trabajo
     });
-
+    
     await worker.save();
-    res.status(201).json({ worker });
+    res.status(201).json(worker.id_trabajador);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
