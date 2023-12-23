@@ -11,7 +11,7 @@ import imagesRoute from './routes/file.route.js'
 const app = express();
 
 const corsOptions = {
-    origin: ['http://localhost:4200', 'http://127.0.0.1:4200'],
+    origin: ['http://localhost:4200', 'http://127.0.0.1:4200','http://192.168.1.2:4200'],
     credentials: true, 
   };
 

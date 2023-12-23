@@ -49,3 +49,18 @@ button {
 button:hover {
     background-color: #2980b9;
 }
+img{
+    width: 140px; height: 120px;
+}
+
+.nav-link:focus,
+  .nav-link.active {
+    background-color: rgb(6, 35, 59);
+    color: black; 
+    
+  }
+
+#eval{
+    background-color: rgb(78, 96, 102);
+}
+

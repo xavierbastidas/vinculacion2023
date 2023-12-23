@@ -4,8 +4,15 @@ import { Campus } from '../../../models/campus';
 import { JobPosition } from '../../../models/jposition';
 import { Worker } from '../../../models/worker';
 import { UploadService } from '../../../services/upload.service';
-import { forkJoin, map } from 'rxjs';
+import { forkJoin, isEmpty, map } from 'rxjs';
 import { FlootMeasurements } from '../../../models/fmeasures';
+import { ViewChild, ElementRef } from '@angular/core';
+import { SittingMeasurements } from '../../../models/smeasures';
+import { SegmentMeasurements } from '../../../models/segmentmeasures';
+import { FunctionalMeasurements } from '../../../models/functionmeasures';
+import { Activity } from '../../../models/activity';
+
+
 
 
 @Component({
@@ -14,22 +21,82 @@ import { FlootMeasurements } from '../../../models/fmeasures';
   styleUrl: './registersurvey.component.css'
 })
 export class RegistersurveyComponent implements OnInit{
+  @ViewChild('formAntr') formAntr!: ElementRef;
+  @ViewChild('formDatosActividad') formDatosActividad!: ElementRef;
   campus: Campus[] = [];
   selectedCampus :Campus = {} as Campus;
   jobP : JobPosition = {} as JobPosition;
   worker : Worker = {} as Worker;
   workerAux : any;
+  activityAux :any;
   flootM : FlootMeasurements = {} as FlootMeasurements;
+  sittingM : SittingMeasurements = {} as SittingMeasurements;
+  segmentM : SegmentMeasurements = {} as SegmentMeasurements;
+  functionalM : FunctionalMeasurements = { } as FunctionalMeasurements;
+  activity : Activity = {} as Activity ;
+  mostrarFormularioAntropometricas: boolean = true;
+  mostrarFormularioDatosActividad: boolean = false;
+  isChecked: boolean = false;
+  datosAntropometricos: boolean = false;
+  datosActividad : boolean = true;
+  seleccionados: string[] = [];
+  
+  
   constructor(private formService : FormService , private uploadService : UploadService){
     this.workerAux = {
       imagen_trabajador1: { file: null, url: null },
       imagen_trabajador2: { file: null, url: null }
+    };
+    this.activityAux = {
+      imagen1: { file: null, url: null },
+      imagen2: { file: null, url: null },
+      imagen3: { file: null, url: null }
     };
   }
   ngOnInit(): void {
   this.getCampus()
   }
  
+  handleChange() {
+    console.log('El valor cambió a:', this.isChecked);
+   
+  }
+
+  datosPuestoCompletos(): boolean {
+   
+    return false;
+}
+
+
+
+limitarSeleccion(opcion: string) {
+  if (this.seleccionados.includes(opcion)) {
+    const index = this.seleccionados.indexOf(opcion);
+    this.seleccionados.splice(index, 1);
+  } else {
+    if (this.seleccionados.length < 2) {
+      this.seleccionados.push(opcion);
+    }
+  }
+}
+
+
+ 
+
+  mostrarAntropometricas() {
+    this.mostrarFormularioAntropometricas = true;
+    this.mostrarFormularioDatosActividad = false;
+    this.formAntr.nativeElement.scrollIntoView({ behavior: 'smooth' });
+}
+
+mostrarDatosActividad() {
+    this.mostrarFormularioAntropometricas = false;
+    this.mostrarFormularioDatosActividad = true;
+    this.formDatosActividad.nativeElement.scrollIntoView({ behavior: 'smooth' });
+}
+
+  
+
   getCampus() {
     this.formService.getCampus().subscribe(
       (data) => {
@@ -60,6 +127,50 @@ export class RegistersurveyComponent implements OnInit{
     }
   }
   
+  onFileSelected1(event: any, property: string) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (property === 'imagen1') {
+          this.activityAux.imagen1.file = file;
+          this.activityAux.imagen1.url = reader.result as string;
+        } else if (property === 'imagen2') {
+          this.activityAux.imagen2.file = file;
+          this.activityAux.imagen2.url = reader.result as string;
+        }
+        else if ((property === 'imagen3') ){
+
+          this.activityAux.imagen3.file = file;
+          this.activityAux.imagen3.url = reader.result as string;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
+ 
+
+  valEval() {
+    const objectsToCheck = [this.jobP, this.workerAux, this.worker, this.flootM, this.sittingM, this.segmentM, this.functionalM];
+    
+    for (const obj of objectsToCheck) {
+      if (Object.keys(obj).length === 0 || Object.values(obj).some(val => val === null || val === '')) {
+        console.log('Por favor, ingrese datos válidos para la evaluación');
+        return false;
+      }
+    }
+  
+    this.datosAntropometricos = true;
+    this.mostrarDatosActividad();
+    this.datosActividad = false;
+    console.log('Datos almacenados para la evaluación');
+    return true;
+  }
+  
+
+
+
 
   createEval() {
     const jobPosition = {
@@ -110,27 +221,122 @@ export class RegistersurveyComponent implements OnInit{
                   anchura_cadera_pie: this.flootM.anchura_cadera_pie,
                   id_trabajador_pertenece: response
                 };
+                const sittingMeasures = {
+                  altura_sentado : this.sittingM.altura_sentado,
+                  altura_ojo : this.sittingM.altura_ojo,
+                  altura_cervical : this.sittingM.altura_cervical,
+                  altura_hombro : this.sittingM.altura_ojo,
+                  altura_codo : this.sittingM.altura_codo,
+                  longitud_hombro_codo : this.sittingM.longitud_hombro_codo,
+                  ancho_hombro : this.sittingM.ancho_hombro,
+                  amplitud_codos : this.sittingM.amplitud_codos,
+                  amplitud_cadera : this.sittingM.amplitud_cadera ,
+                  altura_pliegue_popliteo : this.sittingM.altura_pliegue_popliteo,
+                  altura_rodilla : this.sittingM.altura_rodilla,
+                  id_trabajador_pertenece: response
+                };
+                const segmentMeasures = {
+                  longitud_mano : this.segmentM.longitud_mano,
+                  longitud_palma : this.segmentM.longitud_palma,
+                  amplitud_mano_metacarpios : this.segmentM.amplitud_mano_metacarpios,
+                  longitud_dedo_indice : this.segmentM.longitud_dedo_indice,
+                  anchura_dedo_indice_proximal : this.segmentM.anchura_dedo_indice_proximal,
+                  ancho_dedo_indice_distal : this.segmentM.ancho_dedo_indice_distal,
+                  longitud_pie : this.segmentM.longitud_pie,
+                  ancho_pie : this.segmentM.ancho_pie,
+                  longitud_cabeza : this.segmentM.longitud_cabeza,
+                  ancho_cabeza : this.segmentM.ancho_cabeza,
+                  circunferencia_cabeza : this.segmentM.circunferencia_cabeza,
+                  arco_bitragion : this.segmentM.arco_bitragion,
+                  longitud_pulgar : this.segmentM.longitud_pulgar,
+                  ancho_pulgar :  this.segmentM.ancho_pulgar,
+                  circunferencia_brazo_flexionado : this.segmentM.circunferencia_brazo_flexionado,
+                  circunferencia_antebrazo_flexionado : this.segmentM.circunferencia_antebrazo_flexionado,
+                  id_trabajador_pertenece: response
+                };
+                const functionalMeasures = {
+                  alcance_agarre : this.functionalM.alcance_agarre,
+                  longitud_codo_munieca : this.functionalM.longitud_codo_munieca,
+                  longitud_agarre_codo : this.functionalM.longitud_agarre_codo,
+                  altura_punio : this.functionalM.altura_punio,
+                  profundidad_asiento : this.functionalM.profundidad_asiento,
+                  longitud_rodilla_gluteo : this.functionalM.longitud_rodilla_gluteo,
+                  circunferencia_cintura : this.functionalM.circunferencia_cintura,
+                  circunferencia_munieca : this.functionalM.circunferencia_munieca,
+                  id_trabajador_pertenece: response
+                };
   
-                this.formService.flootMeasuresment(flootMeasures).subscribe(() => {
-                  console.log("Mediciones creadas exitosamente");
-                });
+                const img1 = this.activityAux.imagen1.file;
+                const img2 = this.activityAux.imagen2.file;
+                const img3 = this.activityAux.imagen3.file;
+  
+                if (!img1 || !img2 || !img3) {
+                  console.error('No se han seleccionado todas las imágenes.');
+                  return;
+                }
+  
+                const uploadImg1$ = this.uploadService.uploadImage(img1);
+                const uploadImg2$ = this.uploadService.uploadImage(img2);
+                const uploadImg3$ = this.uploadService.uploadImage(img3);
+  
+                forkJoin({ img1: uploadImg1$, img2: uploadImg2$, img3: uploadImg3$ }).pipe(
+                  map((responses: any) => ({
+                    imagen1: responses.img1.imageUrl,
+                    imagen2: responses.img2.imageUrl,
+                    imagen3: responses.img3.imageUrl,
+                  }))
+                ).subscribe(
+                  (imageUrls: any) => {
+                    const activity = {
+                      nombre_actividad: this.activity.nombre_actividad,
+                      descripcion: this.activity.descripcion,
+                      id_puesto_trabajo: response,
+                      ...imageUrls
+                    };
+  
+                    this.formService.flootMeasuresment(flootMeasures).subscribe(() => {
+                      console.log("Mediciones creadas exitosamente");
+  
+                      this.formService.sittingMeasuresment(sittingMeasures).subscribe(() => {
+                        console.log("Mediciones 2 creadas exitosamente");
+                      });
+  
+                      this.formService.segmentMeasuresment(segmentMeasures).subscribe(() => {
+                        console.log("Mediciones 3 creadas exitosamente");
+                      });
+  
+                      this.formService.functionalMeasuresment(functionalMeasures).subscribe(() => {
+                        console.log("Datos Antropometricos creados exitosamente");
+                      });
+  
+                      this.formService.createActivity(activity).subscribe(() => {
+                        console.log("Actividades creadas exitosamente");
+                      });
+                    },
+                    (error) => {
+                      console.error('Error al crear trabajador:', error);
+                    });
+                  },
+                  (error) => {
+                    console.error('Error al crear puesto de trabajo:', error);
+                  }
+                );
               },
               (error) => {
-                console.error('Error al crear trabajador:', error);
+                console.error('Error al subir imagen:', error);
               }
             );
-          },
-          (error) => {
-            console.error('Error al crear puesto de trabajo:', error);
           }
         );
-      },
-      (error) => {
-        console.error('Error al subir imagen:', error);
       }
     );
   }
   
-  
-  
+
 }
+
+  
+
+
+
+    

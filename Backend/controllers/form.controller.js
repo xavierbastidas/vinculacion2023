@@ -6,6 +6,7 @@ import SegmentMeasurements from '../models/SegmentMeasurements.js';
 import FunctionalMeasurements from '../models/FunctionalMeasurements.js';
 import Activity from '../models/Activity.js';
 import Campus from '../models/Campus.js';
+import MuscleActivity from '../models/MuscleActivity.js';
 
 export const createJobPosition = async (req,res)=>{
 
@@ -133,6 +134,22 @@ export const createActivity = async (req,res)=>{
 }
 
 
+export const createMuscleActivity = async (req,res)=>{
+
+  const {cuerpo_estatico,movimientos_repetitivos,cambios_postura,id_actividad_pertenece} = req.body;
+  try {
+    const muscleActivity = new MuscleActivity ({cuerpo_estatico,movimientos_repetitivos,cambios_postura,
+      id_actividad_pertenece});
+      await muscleActivity.save();
+      res.status(201).json({muscleActivity:muscleActivity});
+    
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+
 export const getCampus = async (req,res)=>{
     try {
         const campus = await Campus.findAll(); 
@@ -142,6 +159,7 @@ export const getCampus = async (req,res)=>{
         res.status(500).json({error:error})
     }
 };
+
 
 
 

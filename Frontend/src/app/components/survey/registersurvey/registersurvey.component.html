@@ -1,136 +1,514 @@
-<div class="container">
-    <div>
-        <h1 class="text-center mt-4 mb-3">Evaluación</h1>
-    </div>
-    <form (ngSubmit)="createEval()" #evaluationForm="ngForm" enctype="multipart/form-data">
-        <div>
-            <h2 class="text-center mb-4">Datos del Puesto</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="identificador">Identificador del puesto de trabajo:</label>
-                        <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control">
-                    </div>
+    <div class="container-fluid">
+        <div class="row">
+          
+           
+            <div class="col-md-3 bg-dark text-white py-4">
+                <ul class="nav flex-column">
+                    <li id="eval">Evaluación </li>
+                    <li>
+                        <a href="javascript:void(0)"
+                           (click)="mostrarAntropometricas()"
+                           [class.active]="mostrarFormularioAntropometricas"
+                           class="nav-link text-white" >Datos Antropométricos</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"
+                           (click)="mostrarDatosActividad()"
+                           [class.active]="mostrarFormularioDatosActividad"
+                           class="nav-link text-white"
+                           >Datos de la Actividad</a>
+                    </li>
+                </ul>
+
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="campus">Campus:</label>
-                        <select [(ngModel)]="selectedCampus.id_campus" id="campus" name="campus" class="form-control">
-                            <option *ngFor="let c of campus" [ngValue]="c.id_campus">{{ c.nombre_campus }}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="departamento">Departamento/Area:</label>
-                        <input [(ngModel)]="jobP.departamento_area" type="text" id="departamento" name="departamento" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
+            
+            
+            
         
-        <div>
-            <h2 class="mb-3 text-center">Datos del Trabajador</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="nombre">Nombres:</label>
-                        <input [(ngModel)]="worker.Nombre" type="text" id="nombre" name="nombre" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="genero">Género:</label>
-                        <select [(ngModel)]="worker.Genero" id="genero" name="genero" class="form-control">
-                            <option value="true">Masculino</option>
-                            <option value="false">Femenino</option>
-                        </select>
-                    </div> 
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="apellido">Apellidos:</label>
-                        <input [(ngModel)]="worker.Apellido" type="text" id="apellido" name="apellido" class="form-control">
-                    </div>
-                   
-                    <div class="form-group">
-                        <label for="edad">Edad:</label>
-                        <input [(ngModel)]="worker.Edad" type="number" id="edad" name="edad" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="imagen1" class="form-label">Imagen 1:</label>
-                        <div class="input-group mb-3">
-                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen1" (change)="onFileSelected($event, 'imagen_trabajador1')" name="imagen1" accept="image/*">
-                        </div>
+            <div #formAntr [hidden]="!mostrarFormularioAntropometricas"  >
+                
+                <div class="container">
+                    <fieldset [disabled]="!datosActividad">
+                        
+
+                    <form (ngSubmit)="valEval()" #evaluationForm="ngForm" enctype="multipart/form-data" >
                         <div>
-                            <img *ngIf="workerAux?.imagen_trabajador1?.url" [src]="workerAux.imagen_trabajador1.url" alt="Imagen 1" style="width: 140px; height: 120px;">
+                            <h2 class="text-center mb-4">Datos del Puesto</h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="identificador">Identificador del puesto de trabajo:</label>
+                                        <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="campus">Campus:</label>
+                                        <select [(ngModel)]="selectedCampus.id_campus" id="campus" name="campus" class="form-control">
+                                            <option *ngFor="let c of campus" [ngValue]="c.id_campus">{{ c.nombre_campus }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="departamento">Departamento/Area:</label>
+                                        <input [(ngModel)]="jobP.departamento_area" type="text" id="departamento" name="departamento" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="imagen2" class="form-label">Imagen 2:</label>
-                        <div class="input-group mb-3">
-                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen2" (change)="onFileSelected($event, 'imagen_trabajador2')" name="imagen2" accept="image/*">
-                        </div>
+                        
                         <div>
-                            <img *ngIf="workerAux?.imagen_trabajador2?.url" [src]="workerAux.imagen_trabajador2.url" alt="Imagen 2" style="width: 140px; height: 120px;">
+                            <h2 class="mb-3 text-center">Datos del Trabajador</h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombres:</label>
+                                        <input [(ngModel)]="worker.Nombre" type="text" id="nombre" name="nombre" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="genero">Género:</label>
+                                        <select [(ngModel)]="worker.Genero" id="genero" name="genero" class="form-control">
+                                            <option value="true">Masculino</option>
+                                            <option value="false">Femenino</option>
+                                        </select>
+                                    </div> 
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="apellido">Apellidos:</label>
+                                        <input [(ngModel)]="worker.Apellido" type="text" id="apellido" name="apellido" class="form-control">
+                                    </div>
+                                   
+                                    <div class="form-group">
+                                        <label for="edad">Edad:</label>
+                                        <input [(ngModel)]="worker.Edad" type="number" id="edad" name="edad" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="imagen1" class="form-label">Imagen 1:</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen1" (change)="onFileSelected($event, 'imagen_trabajador1')" name="imagen1" accept="image/*">
+                                        </div>
+                                        <div>
+                                            <img *ngIf="workerAux?.imagen_trabajador1?.url" [src]="workerAux.imagen_trabajador1.url" alt="Imagen 1" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="imagen2" class="form-label">Imagen 2:</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen2" (change)="onFileSelected($event, 'imagen_trabajador2')" name="imagen2" accept="image/*">
+                                        </div>
+                                        <div>
+                                            <img *ngIf="workerAux?.imagen_trabajador2?.url" [src]="workerAux.imagen_trabajador2.url" alt="Imagen 2" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                
+                        <div>
+                            <h2 class="text-center">Mediciones Antropométricas básicas</h2>
+                            <p class="text-center">Mediciones tomadas mientras la persona está de pie</p>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="masa">Masa (Kg):</label>
+                                        <input [(ngModel)]="flootM.masa" type="number" id="masa" name="masa" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="estatura">Estatura (cm):</label>
+                                        <input [(ngModel)]="flootM.estatura" type="number" id="estatura" name="estatura" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-ojo">Altura ojo (cm):</label>
+                                        <input [(ngModel)]="flootM.altura_ojo"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-hombro">Altura hombro (cm):</label>
+                                        <input [(ngModel)]="flootM.altura_hombro"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="altura-codo">Altura codo (cm):</label>
+                                        <input [(ngModel)]="flootM.altura_codo"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-entrepierna">Altura de la entre pierna (cm):</label>
+                                        <input [(ngModel)]="flootM.altura_entre_pierna"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profundidad-cuerpo">Profundidad del cuerpo (cm):</label>
+                                        <input  [(ngModel)]="flootM.profundidad_cuerpo_de_pie"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Anchura de la cadera (cm):</label>
+                                        <input [(ngModel)]="flootM.anchura_cadera_pie"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div>
+                            <p class="text-center">Mediciones tomadas mientras la persona se sienta</p>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="masa">Altura sentado (cm):</label>
+                                        <input [(ngModel)]="sittingM.altura_sentado" type="number" id="masa" name="masa" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="estatura">Altura de ojo (cm):</label>
+                                        <input [(ngModel)]="sittingM.altura_ojo" type="number" id="estatura" name="estatura" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-ojo">Altura cervical (cm):</label>
+                                        <input [(ngModel)]="sittingM.altura_cervical"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-hombro">Altura hombro (cm):</label>
+                                        <input [(ngModel)]="sittingM.altura_hombro"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-codo">Altura codo (cm):</label>
+                                        <input [(ngModel)]="sittingM.altura_codo"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    <div class="form-group">
+                                        <label for="altura-entrepierna">Longitud del hombro-codo (cm):</label>
+                                        <input [(ngModel)]="sittingM.longitud_hombro_codo"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profundidad-cuerpo">Ancho del hombro (bideltoide) (cm):</label>
+                                        <input  [(ngModel)]="sittingM.ancho_hombro"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Amplitud entre los codos (cm):</label>
+                                        <input [(ngModel)]="sittingM.amplitud_codos"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Amplitud de cadera (cm):</label>
+                                        <input [(ngModel)]="sittingM.amplitud_cadera"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Amplitud del pliegue plopiteo (cm):</label>
+                                        <input [(ngModel)]="sittingM.altura_pliegue_popliteo"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                            <div class="form-group">
+                                <label for="altura-cadera">Altura de rodilla (cm):</label>
+                                <input [(ngModel)]="sittingM.altura_rodilla"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                            </div>
+                        </div>
+                
+                        <div>
+                            <p class="text-center">Mediciones en segmentos corporales específicos</p>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="masa">Longitud de la mano (cm):</label>
+                                        <input [(ngModel)]="segmentM.longitud_mano" type="number" id="masa" name="masa" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="estatura">Longitud de la palma (cm):</label>
+                                        <input [(ngModel)]="segmentM.longitud_palma" type="number" id="estatura" name="estatura" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-ojo">Amplitud de la mano en los metarcarpianos (cm):</label>
+                                        <input [(ngModel)]="segmentM.amplitud_mano_metacarpios"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-hombro">Longitud del dedo índice (cm):</label>
+                                        <input [(ngModel)]="segmentM.longitud_dedo_indice"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-codo">Anchura del dedo índice proximal (cm):</label>
+                                        <input [(ngModel)]="segmentM.anchura_dedo_indice_proximal"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-codo">Anchura del dedo índice distal (cm):</label>
+                                        <input [(ngModel)]="segmentM.ancho_dedo_indice_distal"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-entrepierna">Longitud del pie(cm):</label>
+                                        <input [(ngModel)]="segmentM.longitud_pie"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profundidad-cuerpo">Ancho del pie (cm):</label>
+                                        <input  [(ngModel)]="segmentM.ancho_pie"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Longitud de la cabeza (cm):</label>
+                                        <input [(ngModel)]="segmentM.longitud_cabeza"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Ancho de la cabeza (cm):</label>
+                                        <input [(ngModel)]="segmentM.ancho_cabeza"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Circunferencia de la cabeza (cm):</label>
+                                        <input [(ngModel)]="segmentM.circunferencia_cabeza"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Arco Bitragion (cm):</label>
+                                        <input [(ngModel)]="segmentM.arco_bitragion"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Longitud del pulgar (cm):</label>
+                                        <input [(ngModel)]="segmentM.longitud_pulgar"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Ancho del pulgar (cm):</label>
+                                        <input [(ngModel)]="segmentM.ancho_pulgar"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Circunferencia del brazo flexionado (cm):</label>
+                                        <input [(ngModel)]="segmentM.circunferencia_brazo_flexionado"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Circunferencia del antebrazo flexionado (cm):</label>
+                                        <input [(ngModel)]="segmentM.circunferencia_antebrazo_flexionado"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                            
+                        </div>
+                
+                        <div>
+                            <p class="text-center">Mediciones funcionales</p>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="masa">Alcanze del agarre , hacia adelante (cm):</label>
+                                        <input [(ngModel)]="functionalM.alcance_agarre" type="number" id="masa" name="masa" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="estatura">Longitud del codo-muñeca (cm):</label>
+                                        <input [(ngModel)]="functionalM.longitud_codo_munieca" type="number" id="estatura" name="estatura" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-ojo">Longitud del agarre del codo (cm):</label>
+                                        <input [(ngModel)]="functionalM.longitud_agarre_codo"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-hombro">Altura del puño(cm):</label>
+                                        <input [(ngModel)]="functionalM.altura_punio"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Profundidad del asiento (cm):</label>
+                                        <input [(ngModel)]="functionalM.profundidad_asiento"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Longitud de la rodilla-glúteo (cm):</label>
+                                        <input [(ngModel)]="functionalM.longitud_rodilla_gluteo"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Circunferencia de la cintura (cm):</label>
+                                        <input [(ngModel)]="functionalM.circunferencia_cintura"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="altura-cadera">Circunferencia de la muñeca (cm):</label>
+                                        <input [(ngModel)]="functionalM.circunferencia_munieca"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-3">Siguiente</button>
+                        </div>
+                    </form>
+                </fieldset>
+                </div>
+                
+                
+                
+            </div>
+ 
+            <div #formDatosActividad [hidden]="!mostrarFormularioDatosActividad" >
+                <div class="container">
+                    <div>
+                        <h2 class="text-center mt-4 mb-3">Datos de la Actividad</h2>
                     </div>
+                    <fieldset [disabled]="!datosAntropometricos">
+                 
+                    <form (ngSubmit)="createEval()" #evaluationForm="ngForm" enctype="multipart/form-data" >
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="identificador">Nombre:</label>
+                                        <input [(ngModel)]="activity.nombre_actividad" type="text" id="identificador" name="identificador" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="campus">Descripcion:</label>
+                                        <input [(ngModel)]="activity.descripcion" type="text" id="identificador" name="identificador" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+        
+                        </div>
+                        
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                               
+                                <div class="form-group text-center">
+                                    <label for="imagen1" class="form-label">Imagen 1:</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen1" (change)="onFileSelected1($event, 'imagen1')" name="imagen1" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <img *ngIf="activityAux?.imagen1?.url" [src]="activityAux.imagen1.url" alt="Imagen 1" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                              
+                                <div class="form-group text-center">
+                                    <label for="imagen2" class="form-label">Imagen 2:</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen2" (change)="onFileSelected1($event, 'imagen2')" name="imagen2" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <img *ngIf="activityAux?.imagen2?.url" [src]="activityAux.imagen2.url" alt="Imagen 2" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                
+                                <div class="form-group text-center">
+                                    <label for="imagen3" class="form-label">Imagen 3:</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen3" (change)="onFileSelected1($event, 'imagen3')" name="imagen3" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <img *ngIf="activityAux?.imagen3?.url" [src]="activityAux.imagen3.url" alt="Imagen 3" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                 <div>
+                                    <h2 >Informacion de la Actividad</h2>
+                                    <p>Seleccionar (una o más de una) segun la actividad muscular y fuerza :</p>
+                                    <div>
+                                        <label>
+                                          <input type="checkbox" (change)="limitarSeleccion('cabeza')"> 
+                                          Una o más partes del cuerpo permanecen estáticas, por ejemplo, soportadas durante más de 1 minuto
+                                        </label>
+                                        <label>
+                                          <input type="checkbox" (change)="limitarSeleccion('torso')"> Mostrar torso
+                                        </label>
+                                        <label>
+                                          <input type="checkbox" (change)="limitarSeleccion('piernas')"> Mostrar piernas
+                                        </label>
+                                      </div>
+                                      
+                                 </div>
+                                   <div>
+                                     <p >Indique la fuerza ejercida por el trabajador (solo se puede escoger una)</p>
+                                     <div>
+                                        <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('cabeza')"> Mostrar cabeza
+                                          </label>
+                                          <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('torso')"> Mostrar torso
+                                          </label>
+                                          <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('piernas')"> Mostrar piernas
+                                          </label>
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
+                                    <label for="genero">Existen fuerzas o cargas aplicadas bruscamente?:</label>
+                                    <select [(ngModel)]="worker.Genero" id="genero" name="genero" class="form-control">
+                                        <option value="true">Si</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div> 
+
+                                <div>
+                                    <p>Indique las caracteristicas de agarre de la carga:(solo se puede escoger una)</p>
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('cabeza')"> Mostrar cabeza
+                                          </label>
+                                          <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('torso')"> Mostrar torso
+                                          </label>
+                                          <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('piernas')"> Mostrar piernas
+                                          </label>
+                                          <label>
+                                            <input type="checkbox" (change)="limitarSeleccion('piernas')"> Mostrar piernas
+                                          </label>
+                                     </div>
+                                </div>
+                                <div><label >Quiere reportar alguna molestia , adornecimiento o dolor en alguna
+                                    parte de su cuerpo
+                                </label>
+                                <input type="text">
+                            </div>
+                            <div><label >Padece alguna enfermedad cronica 
+                            </label>
+                            <input type="text">
+                        </div>
+                        <div><label >Toma algun medicamento de forma regular
+                        </label>
+                        <input type="text">
+                    </div>
+                    <div><label >Capacidad de carga
+                    </label>
+                    <input type="text">
+                </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-3">Almacenar</button>
+                        </div>
+                    </form>
+                </fieldset>
                 </div>
             </div>
-        </div>
-
-        <div>
-            <h2 class="text-center">Mediciones Antropométricas básicas</h2>
-            <p class="text-center">Mediciones tomadas mientras la persona está de pie</p>
-            <div class="row">
-                <div class="col-md-6 ">
-                    <div class="form-group">
-                        <label for="masa">Masa (Kg):</label>
-                        <input [(ngModel)]="flootM.masa" type="number" id="masa" name="masa" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="estatura">Estatura (cm):</label>
-                        <input [(ngModel)]="flootM.estatura" type="number" id="estatura" name="estatura" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="altura-ojo">Altura ojo (cm):</label>
-                        <input [(ngModel)]="flootM.altura_ojo"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="altura-hombro">Altura hombro (cm):</label>
-                        <input [(ngModel)]="flootM.altura_hombro"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="altura-codo">Altura codo (cm):</label>
-                        <input [(ngModel)]="flootM.altura_codo"type="number" id="altura-codo" name="altura-codo" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="altura-entrepierna">Altura entrepierna (cm):</label>
-                        <input [(ngModel)]="flootM.altura_entre_pierna"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="profundidad-cuerpo">Profundidad del cuerpo (cm):</label>
-                        <input  [(ngModel)]="flootM.profundidad_cuerpo_de_pie"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="altura-cadera">Altura de la cadera (cm):</label>
-                        <input [(ngModel)]="flootM.anchura_cadera_pie"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
+            
+        
 
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
-        </div>
-    </form>
-</div>
+
+
+
+
+

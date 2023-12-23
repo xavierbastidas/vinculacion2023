@@ -5,17 +5,18 @@ const MuscleActivity = db.define('actividad_muscular', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement:true
   },
   cuerpo_estatico: {
-    type: DataTypes.CHAR(1),
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
   movimientos_repetitivos: {
-    type: DataTypes.CHAR(1),
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
   cambios_postura: {
-    type: DataTypes.CHAR(1),
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
   id_actividad_pertenece: {

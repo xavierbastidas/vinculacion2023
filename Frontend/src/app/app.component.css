@@ -1,17 +1,15 @@
 
 .bg-image {
-    background-image: url('../assets/he.png');
-    background-size: cover;
-    background-position: center;
-    height: auto;
-    width: auto;
-  }
-  
-  
-  .bg-image h1 {
-    font-size: 3rem;
-  }
-  
+  background-image: url('../assets/he.png');
+  background-size: cover;
+  background-position: center;
+  height: auto;
+  width: auto;
+
+}
+
+
+
 
   .nav-link {
     cursor: pointer;
