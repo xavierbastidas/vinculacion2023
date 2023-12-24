@@ -6,16 +6,12 @@ const Medicine= db.define('medicamento', {
     primaryKey: true,
     allowNull: false,
   },
-  nombre_medicamento: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-  },
   descripcion: {
     type: DataTypes.STRING(250),
     allowNull: false,
   },
   id_trabajador_pertenece:{
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
   }
 }, {

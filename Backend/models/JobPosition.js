@@ -13,6 +13,10 @@ const JobPosition = db.define('puesto_trabajo', {
   id_campus_pertenece: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  id_encuestador_pertenece:{
+    type: DataTypes.INTEGER,
+    allowNull: false,
   }
 }, {
   tableName: 'puesto_trabajo',

@@ -10,14 +10,10 @@ const ForceExerted= db.define('fuerza_ejercida', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-  id_tipo_fuerza: {
+  id_tipo_fuerza_pertenece: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  id_actividad_pertenece: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  }
 
 }, {
   tableName: 'fuerza_ejercida',

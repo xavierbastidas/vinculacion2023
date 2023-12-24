@@ -11,7 +11,7 @@ const Diase= db.define('enfermedad', {
     allowNull: false,
   },
   id_trabajador_pertenece: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
   }
 }, {

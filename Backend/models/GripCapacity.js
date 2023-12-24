@@ -1,21 +1,23 @@
 import db from "../database/connection.js"
 import { DataTypes } from 'sequelize';
-const Grip= db.define('agarre', {
-  id_tipo_agarre: {
+const GripCapacity= db.define('capacidad_agarre', {
+  id_capacidad_agarre: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement:true,
   },
-  agarre: {
-    type: DataTypes.STRING(50),
+  valor: {
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
-  descripcion: {
-    type: DataTypes.STRING(250),
+  id_trabajador_pertenece: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-  }
+  },
+
 }, {
-  tableName: 'agarre',
+  tableName: 'capacidad_agarre',
   timestamps: false,
   charset: 'latin1',
   engine: 'InnoDB',
@@ -23,4 +25,4 @@ const Grip= db.define('agarre', {
 });
 
 
-export default Grip
+export default GripCapacity

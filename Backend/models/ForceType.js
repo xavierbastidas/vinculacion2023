@@ -6,12 +6,20 @@ const ForceType= db.define('tipo_fuerza', {
     primaryKey: true,
     allowNull: false,
   },
-  tipo_fuerza: {
-    type: DataTypes.STRING(50),
+  menor_cinco_kilo: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-  descripcion_fuerza: {
-    type: DataTypes.STRING(250),
+  entre_cinco_diez_kilo: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  mayor_diez_kilo: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  id_actividad_pertenece: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   }
 }, {

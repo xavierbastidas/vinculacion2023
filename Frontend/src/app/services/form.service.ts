@@ -9,6 +9,14 @@ import { SittingMeasurements } from '../models/smeasures';
 import { SegmentMeasurements } from '../models/segmentmeasures';
 import { FunctionalMeasurements } from '../models/functionmeasures';
 import { Activity } from '../models/activity';
+import { MuscleActivity } from '../models/muscleactivity';
+import { ForceType } from '../models/forcetype';
+import { ForceExerted } from '../models/forcexerted';
+import { GripFeatures } from '../models/gripfeatures';
+import { Injury } from '../models/injury';
+import { Diase } from '../models/diase';
+import { Medicine } from '../models/medicine';
+import { GripCapacity } from '../models/gripcapacity';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,5 +49,38 @@ export class FormService {
     }
     createActivity(activity:Activity){
       return this.http.post<Activity>(this.apiUrl+'registerActivity',activity)
+    }
+
+    getIdPollster(id_usuario_pertenece: number) {
+      return this.http.get<number>(`${this.apiUrl}/${id_usuario_pertenece}`);
+    }
+
+    muscleAcitivity(muscleA:MuscleActivity){
+      return this.http.post<MuscleActivity>(this.apiUrl+'registerMuscleA',muscleA);
+    }
+
+    forceType(forceT:ForceType){
+      return this.http.post<ForceType>(this.apiUrl+'addForceActivity',forceT);
+    }
+
+    forceExerted(forceE:ForceExerted){
+      return this.http.post<ForceExerted>(this.apiUrl+'addForceExerted',forceE);
+    }
+    gripFeatures(gripF:GripFeatures){
+      return this.http.post<GripFeatures>(this.apiUrl+'addGripFeatures',gripF);
+    }
+
+    Injury(injury:Injury){
+      return this.http.post<Injury>(this.apiUrl+'addInjury',injury);
+    }
+  
+    Diase(diase:Diase){
+      return this.http.post<Diase>(this.apiUrl+'addDiase',diase);
+    }
+    Medicine(medicine:Medicine){
+      return this.http.post<Medicine>(this.apiUrl+'addMedicine',medicine);
+    }
+    gripCapacity(gripC:GripCapacity){
+      return this.http.post<GripCapacity>(this.apiUrl+'addGripCapacity',gripC);
     }
 }

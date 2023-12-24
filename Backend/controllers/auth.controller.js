@@ -65,7 +65,7 @@ export const login = async (req, res) => {
             obj = await Pollster.findOne({ where: { id_usuario_pertenece } });
         }
         if (obj) {
-            nombre = obj.Nombre; 
+            nombre = obj.Nombre + ' '+ obj.Apellido; 
         }
         res.json({ token, id_rol, nombre });
     } catch (error) {

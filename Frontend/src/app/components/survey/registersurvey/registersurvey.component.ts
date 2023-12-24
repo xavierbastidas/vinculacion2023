@@ -11,6 +11,15 @@ import { SittingMeasurements } from '../../../models/smeasures';
 import { SegmentMeasurements } from '../../../models/segmentmeasures';
 import { FunctionalMeasurements } from '../../../models/functionmeasures';
 import { Activity } from '../../../models/activity';
+import { UsersService } from '../../../services/users.service';
+import { MuscleActivity } from '../../../models/muscleactivity';
+import { ForceType } from '../../../models/forcetype';
+import { ForceExerted } from '../../../models/forcexerted';
+import { GripFeatures } from '../../../models/gripfeatures';
+import { Injury } from '../../../models/injury';
+import { Diase } from '../../../models/diase';
+import { Medicine } from '../../../models/medicine';
+import { GripCapacity } from '../../../models/gripcapacity';
 
 
 
@@ -40,9 +49,18 @@ export class RegistersurveyComponent implements OnInit{
   datosAntropometricos: boolean = false;
   datosActividad : boolean = true;
   seleccionados: string[] = [];
+  muscleA : MuscleActivity = {} as MuscleActivity;
+  forceType : ForceType = {} as ForceType;
+  forceExerted : ForceExerted = {} as ForceExerted;
+  gripF : GripFeatures = {} as GripFeatures;
+  injury  : Injury ={} as Injury;
+  diase : Diase = {} as Diase;
+  medicine : Medicine =  {} as Medicine ;
+  gripC : GripCapacity = {} as GripCapacity;
   
   
-  constructor(private formService : FormService , private uploadService : UploadService){
+  constructor(private formService : FormService , private uploadService : UploadService,
+    private userService : UsersService){
     this.workerAux = {
       imagen_trabajador1: { file: null, url: null },
       imagen_trabajador2: { file: null, url: null }
@@ -173,10 +191,13 @@ mostrarDatosActividad() {
 
 
   createEval() {
+    const userId = this.userService.getUserIdFromToken();
+    const pollsterId =  this.formService.getIdPollster(Number(userId));
     const jobPosition = {
       id_puesto_trabajo: this.jobP.id_puesto_trabajo,
       departamento_area: this.jobP.departamento_area,
-      id_campus_pertenece: this.selectedCampus.id_campus
+      id_campus_pertenece: this.selectedCampus.id_campus,
+      id_encuestador_pertenece : Number(pollsterId)
     };
   
     const image1 = this.workerAux.imagen_trabajador1.file;
@@ -205,7 +226,7 @@ mostrarDatosActividad() {
           id_puesto_trabajo: jobPosition.id_puesto_trabajo,
           ...imageUrls
         };
-  
+        
         this.formService.createJobPosition(jobPosition).subscribe(
           () => {
             this.formService.createWorker(workerData).subscribe(
@@ -265,6 +286,25 @@ mostrarDatosActividad() {
                   circunferencia_munieca : this.functionalM.circunferencia_munieca,
                   id_trabajador_pertenece: response
                 };
+
+                const injury = {
+                  descripcion : this.injury.descripcion,
+                  id_trabajador_pertenece :  response
+                }
+
+                const diase = {
+                  nombre_enfermedad : this.diase.nombre_enfermedad,
+                  id_trabajador_pertenece : response
+                }
+
+                const medicine = {
+                  descripcion : this.medicine.descripcion,
+                  id_trabajador_pertenece  :response
+                }
+                const gripcapacity = {
+                  valor :this.gripC.valor,
+                  id_trabajador_pertenece : response
+                }
   
                 const img1 = this.activityAux.imagen1.file;
                 const img2 = this.activityAux.imagen2.file;
@@ -309,9 +349,67 @@ mostrarDatosActividad() {
                         console.log("Datos Antropometricos creados exitosamente");
                       });
   
-                      this.formService.createActivity(activity).subscribe(() => {
+                      this.formService.createActivity(activity).subscribe((response) => {
                         console.log("Actividades creadas exitosamente");
+
+                        const muscleActivity = {
+                        cuerpo_estatico : this.muscleA.cuerpo_estatico,
+                        movimientos_repetitivos : this.muscleA.movimientos_repetitivos,
+                        cambios_postura : this.muscleA.cambios_postura,
+                        id_actividad_pertenece : Number(response.id_actividad)
+                        }
+                        const forceType ={
+                          menor_cinco_kilo : this.forceType.menor_cinco_kilo,
+                          entre_cinco_diez_kilo: this.forceType.entre_cinco_diez_kilo,
+                          mayor_diez_kilo : this.forceType.mayor_diez_kilo,
+                          id_actividad_pertenece : Number(response.id_actividad)
+                        }
+
+                        const gripFeatures = {
+                          bueno : this.gripF.bueno,
+                          regular : this.gripF.regular,
+                          malo : this.gripF.malo,
+                          inaceptable : this.gripF.inaceptable,
+                          id_actividad_pertenece : Number(response.id_actividad)
+
+                        }
+
+                       
+                        this.formService.muscleAcitivity(muscleActivity).subscribe(()=>{
+
+                        })
+
+                        this.formService.forceType(forceType).subscribe((response)=>{
+                           
+                          const forceExerted = {
+                            fuerza_brusca : this.forceExerted.fuerza_brusca,
+                            id_tipo_fuerza_pertenece : Number(response.id_tipo_fuerza)
+                          }
+
+                          this.formService.forceExerted(forceExerted).subscribe(()=>{
+
+                          })
+
+                          this.formService.gripFeatures(gripFeatures).subscribe(()=>{
+
+                          })
+                          this.formService.Injury(injury).subscribe(()=>{
+
+                          })
+                          this.formService.Diase(diase).subscribe(()=>{
+
+                          })
+                          this.formService.Medicine(medicine).subscribe(()=>{
+
+                          })
+                          this.formService.gripCapacity(gripcapacity).subscribe(()=>{
+                            
+                          })
+                        })
                       });
+                        
+                      
+                      
                     },
                     (error) => {
                       console.error('Error al crear trabajador:', error);

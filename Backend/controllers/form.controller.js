@@ -7,14 +7,22 @@ import FunctionalMeasurements from '../models/FunctionalMeasurements.js';
 import Activity from '../models/Activity.js';
 import Campus from '../models/Campus.js';
 import MuscleActivity from '../models/MuscleActivity.js';
+import Pollster from '../models/Pollster.js';
+import ForceType from '../models/ForceType.js';
+import ForceExerted from '../models/ForceExerted.js';
+import GripFeatures from '../models/GripFeatures.js';
+import Injury from  '../models/Injury.js';
+import Diase  from '../models/Diase.js';
+import Medicine from '../models/Medicine.js';
+import GripCapacity from '../models/GripCapacity.js';
 
 export const createJobPosition = async (req,res)=>{
 
-  const {id_puesto_trabajo,departamento_area,id_campus_pertenece}= req.body;
+  const {id_puesto_trabajo,departamento_area,id_campus_pertenece,id_encuestador_pertenece}= req.body;
   
   try {
     const jobPosition =  new JobPosition({id_puesto_trabajo,departamento_area,
-    id_campus_pertenece});
+    id_campus_pertenece,id_encuestador_pertenece});
     await jobPosition.save()
     res.status(201).json({job_position:jobPosition})
   } catch (error) {
@@ -125,7 +133,7 @@ export const createActivity = async (req,res)=>{
     const activity = new Activity ({nombre_actividad,descripcion,imagen1,imagen2,
     imagen3,id_trabajador_pertenece});
     await activity.save();
-    res.status(201).json({activity:activity});
+    res.status(201).json(activity.id_actividad);
     
   } catch (error
   ) {
@@ -146,6 +154,120 @@ export const createMuscleActivity = async (req,res)=>{
   } catch (error
   ) {
     res.status(500).json({error:error});
+  }
+}
+
+
+export const addForceType = async (req,res)=>{
+
+  const {menor_cinco_kilo,entre_cinco_diez_kilo,mayor_diez_kilo} = req.body;
+  try {
+    const forceExerted= new ForceType ({menor_cinco_kilo,entre_cinco_diez_kilo,mayor_diez_kilo});
+      await forceExerted.save();
+      res.status(201).json(forceExerted.id_tipo_fuerza);
+    
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+
+export const addForceExerted = async (req,res)=>{
+
+  const {fuerza_brusca,id_tipo_fuerza_pertenece} = req.body;
+  try {
+    const forceExerted= new ForceExerted({fuerza_brusca,id_tipo_fuerza_pertenece});
+      await forceExerted.save();
+      res.status(201).json({forceExerted:forceExerted});
+    
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+export const addGripFeatures = async (req,res)=>{
+
+  const {bueno,regular,malo,inaceptable,id_actividad_pertenece} = req.body;
+  try {
+    const gripFeatures= new GripFeatures({bueno,regular,malo,inaceptable,id_actividad_pertenece});
+      await gripFeatures.save();
+      res.status(201).json({gripFeatures:gripFeatures});
+    
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+export const addInjury = async (req,res)=>{
+
+  const {descripcion,id_trabajador_pertenece} = req.body;
+  try {
+    const injury= new Injury({descripcion,id_trabajador_pertenece});
+      await injury.save();
+      res.status(201).json({injury:injury});
+    
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+export const addDiase = async (req,res)=>{
+
+  const {nombre_enfermedad,id_trabajador_pertenece} = req.body;
+  try {
+    const diase = new Diase({nombre_enfermedad,id_trabajador_pertenece});
+      await diase.save();
+      res.status(201).json({diase:diase});
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+export const addMedicine = async (req,res)=>{
+
+  const {descripcion,id_trabajador_pertenece} = req.body;
+  try {
+    const medicine = new Medicine({descripcion,id_trabajador_pertenece});
+      await medicine.save();
+      res.status(201).json({medicine:medicine});
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+export const addGripCapacity = async (req,res)=>{
+
+  const {valor,id_trabajador_pertenece} = req.body;
+  try {
+    const gripCapacity = new GripCapacity({valor,id_trabajador_pertenece});
+      await gripCapacity.save();
+      res.status(201).json({gripCapacity:gripCapacity});
+  } catch (error
+  ) {
+    res.status(500).json({error:error});
+  }
+}
+
+
+
+
+
+
+export const getIdPollster = async (req, res) => {
+  const { id_usuario_pertenece } = req.params; 
+  try {
+    const { id_encuestador } = await Pollster.findOne({ where: { id_usuario_pertenece } });
+    if (!id_encuestador) { 
+      return res.status(404).json({ error: 'Pollster not found' });
+    }
+    res.json(id_encuestador);
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
