@@ -5,6 +5,7 @@ const ForceExerted= db.define('fuerza_ejercida', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement:true
   },
   fuerza_brusca: {
     type: DataTypes.BOOLEAN,

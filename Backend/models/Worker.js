@@ -1,6 +1,6 @@
 import db from "../database/connection.js"
 import { DataTypes } from 'sequelize';
-const Worker = db.define('trabajador', {
+const Worker = db.define('eval_trabajador', {
   id_trabajador: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -36,7 +36,7 @@ const Worker = db.define('trabajador', {
     allowNull: false,
   },
 }, {
-  tableName: 'trabajador',
+  tableName: 'eval_trabajador',
   timestamps: false,
   charset: 'latin1',
   engine: 'InnoDB',

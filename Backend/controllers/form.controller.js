@@ -160,9 +160,10 @@ export const createMuscleActivity = async (req,res)=>{
 
 export const addForceType = async (req,res)=>{
 
-  const {menor_cinco_kilo,entre_cinco_diez_kilo,mayor_diez_kilo} = req.body;
+  const {menor_cinco_kilo,entre_cinco_diez_kilo,mayor_diez_kilo,id_actividad_pertenece} = req.body;
   try {
-    const forceExerted= new ForceType ({menor_cinco_kilo,entre_cinco_diez_kilo,mayor_diez_kilo});
+    const forceExerted= new ForceType ({menor_cinco_kilo,entre_cinco_diez_kilo,mayor_diez_kilo,
+      id_actividad_pertenece});
       await forceExerted.save();
       res.status(201).json(forceExerted.id_tipo_fuerza);
     
@@ -270,6 +271,7 @@ export const getIdPollster = async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
+
 
 
 export const getCampus = async (req,res)=>{

@@ -5,6 +5,7 @@ const Medicine= db.define('medicamento', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement:true
   },
   descripcion: {
     type: DataTypes.STRING(250),

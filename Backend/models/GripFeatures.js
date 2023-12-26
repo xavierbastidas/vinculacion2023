@@ -1,10 +1,11 @@
 import db from "../database/connection.js"
 import { DataTypes } from 'sequelize';
-const GripFeatures= db.define('caracterisitcas_agarre', {
+const GripFeatures= db.define('caracteristicas_agarre', {
   id_tipo_agarre: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement:true
   },
   bueno: {
     type: DataTypes.BOOLEAN,
@@ -23,12 +24,12 @@ const GripFeatures= db.define('caracterisitcas_agarre', {
     allowNull: false,
   },
   id_actividad_pertenece: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 
 }, {
-  tableName: 'caracterisitcas_agarre',
+  tableName: 'caracteristicas_agarre',
   timestamps: false,
   charset: 'latin1',
   engine: 'InnoDB',

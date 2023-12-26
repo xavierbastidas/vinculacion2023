@@ -17,6 +17,8 @@ import { Injury } from '../models/injury';
 import { Diase } from '../models/diase';
 import { Medicine } from '../models/medicine';
 import { GripCapacity } from '../models/gripcapacity';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,9 +53,17 @@ export class FormService {
       return this.http.post<Activity>(this.apiUrl+'registerActivity',activity)
     }
 
+   
     getIdPollster(id_usuario_pertenece: number) {
-      return this.http.get<number>(`${this.apiUrl}/${id_usuario_pertenece}`);
+      return this.http.get<number>(`${this.apiUrl}pollster/${id_usuario_pertenece}`)
+        .pipe(
+          catchError((error) => {
+            console.error('Error en la solicitud HTTP:', error);
+            return throwError('Error al obtener el ID del encuestador');
+          })
+        );
     }
+    
 
     muscleAcitivity(muscleA:MuscleActivity){
       return this.http.post<MuscleActivity>(this.apiUrl+'registerMuscleA',muscleA);

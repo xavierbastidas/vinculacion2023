@@ -5,6 +5,7 @@ const Diase= db.define('enfermedad', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement:true
   },
   nombre_enfermedad: {
     type: DataTypes.STRING(100),

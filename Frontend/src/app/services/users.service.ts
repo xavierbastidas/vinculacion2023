@@ -50,7 +50,7 @@ export class UsersService {
 
  
   
-  getUserIdFromToken(): number | null {
+  getUserIdFromToken() {
     const JJER = this.getToken();
     const token  = decryptData(JJER,environment.SECRET);
     if (token) {
@@ -61,7 +61,6 @@ export class UsersService {
         return id_usuario;
       }
     }
-    return null;
   }
 
   checkEmailBD(email:any):Observable<boolean>{

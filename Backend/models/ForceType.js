@@ -5,6 +5,7 @@ const ForceType= db.define('tipo_fuerza', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement :true
   },
   menor_cinco_kilo: {
     type: DataTypes.BOOLEAN,

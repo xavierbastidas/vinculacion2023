@@ -4,7 +4,6 @@ import express from 'express'
 import authRoute from './routes/auth.route.js'
 import cors from 'cors'
 import cookieParser from "cookie-parser"
-import roleRoute from './routes/role.route.js'
 import formRoute from './routes/form.route.js'
 import imagesRoute from './routes/file.route.js'
 
@@ -19,7 +18,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser())
 app.use("/api/v1/users",authRoute);
-app.use("/api/v1/roles",roleRoute);
 app.use("/api/v1/form",formRoute);
 app.use("/api/v1/images",imagesRoute);
 

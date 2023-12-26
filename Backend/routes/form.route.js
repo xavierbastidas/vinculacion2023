@@ -33,7 +33,7 @@ router.post('/addDiase',addDiase);
 router.post('/addMedicine',addMedicine);
 router.post('/addGripCapacity',addGripCapacity);
 router.post('/registerMuscleA',createMuscleActivity);
-router.get('/:id_usuario_pertenece',getIdPollster);
+router.get('/pollster/:id_usuario_pertenece',getIdPollster);
 router.get('/campus',getCampus);
 
 
