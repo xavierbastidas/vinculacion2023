@@ -31,6 +31,8 @@ export const registerAdmin = async (req,res)=>{
         res.status(500).json({error:error});
     }
 };
+
+
 export const registerPollster = async (req,res)=>{
     const {Nombre,Apellido,id_usuario_pertenece}=req.body;
     try {

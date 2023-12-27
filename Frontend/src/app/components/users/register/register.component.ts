@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { User } from '../../../models/user';
-import { Rol } from '../../../models/rol';
 import { Pollster } from '../../../models/pollster';
 
 @Component({
@@ -11,7 +10,6 @@ import { Pollster } from '../../../models/pollster';
 })
 export class RegisterComponent implements OnInit {
 user: User = {} as User;
-roles: Rol[] = [];
 pollster : Pollster = {} as Pollster;
 errorMessage : string = ' ';
 successMessage : string = ' ';
@@ -81,9 +79,9 @@ createPollster() {
             );
           },
           (error) => {
-            if (error === 'La sesión ha caducado debido a que el token ha expirado') {
-              this.errorMessageToken = 'Porfavor vuelva a iniciar session ';
-          }
+            if (error === 401) {
+              this.errorMessageToken = 'Por favor, vuelva a iniciar sesión';
+            }
         }
         );
       }

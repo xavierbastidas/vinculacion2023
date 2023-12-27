@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Admin } from '../models/admin';
 import { Pollster } from '../models/pollster';
-import { Observable ,throwError , catchError } from 'rxjs';
-import { environment , decryptData } from '../../environments/environment.prod';
+import { Observable  , catchError } from 'rxjs';
+import { environment , decryptData , handleExpiredTokenError} from '../../environments/environment.prod';
 
 
 @Injectable({
@@ -17,7 +17,7 @@ export class UsersService {
   constructor(private http : HttpClient , private router :Router , @Inject(CookieService) private cookieService: CookieService) { }
   signUpUser(user:User){
    return this.http.post<User>(this.apiUrl+'register',user).pipe(
-    catchError((error: HttpErrorResponse) => this.handleExpiredTokenError(error))
+    catchError((error: HttpErrorResponse) => handleExpiredTokenError(error))
    )
   }
 
@@ -67,12 +67,8 @@ export class UsersService {
     return this.http.post<any>(this.apiUrl+'checkEmailBD',email);
   }
 
-  handleExpiredTokenError(error: HttpErrorResponse) {
-    if (error.status === 401) {
-      return throwError('La sesión ha caducado debido a que el token ha expirado');
 
-    }
-    return throwError(error);
-  }
-  
+ 
+
+
 }

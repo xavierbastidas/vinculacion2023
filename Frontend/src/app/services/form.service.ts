@@ -18,7 +18,9 @@ import { Diase } from '../models/diase';
 import { Medicine } from '../models/medicine';
 import { GripCapacity } from '../models/gripcapacity';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { handleExpiredTokenError } from '../../environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +35,9 @@ export class FormService {
       return this.http.post<Worker>(this.apiUrl+'registerWorker',worker);
      }
     createJobPosition(job:JobPosition){
-      return this.http.post<JobPosition>(this.apiUrl+'jobPosition',job);
+      return this.http.post<JobPosition>(this.apiUrl+'jobPosition',job).pipe(
+        catchError((error: HttpErrorResponse) => handleExpiredTokenError(error))
+      )
     }
     flootMeasuresment(fMeasures:FlootMeasurements){
       return this.http.post<JobPosition>(this.apiUrl+'flootM',fMeasures);
@@ -57,8 +61,7 @@ export class FormService {
     getIdPollster(id_usuario_pertenece: number) {
       return this.http.get<number>(`${this.apiUrl}pollster/${id_usuario_pertenece}`)
         .pipe(
-          catchError((error) => {
-            console.error('Error en la solicitud HTTP:', error);
+          catchError(() => {
             return throwError('Error al obtener el ID del encuestador');
           })
         );
@@ -93,4 +96,11 @@ export class FormService {
     gripCapacity(gripC:GripCapacity){
       return this.http.post<GripCapacity>(this.apiUrl+'addGripCapacity',gripC);
     }
+
+    checkIdPuestoBD(id_puesto_trabajo:any):Observable<boolean>{
+      return this.http.post<any>(this.apiUrl+'checkIdPuestoBD',id_puesto_trabajo);
+    }
+
+
+  
 }

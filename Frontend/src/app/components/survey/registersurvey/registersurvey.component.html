@@ -38,7 +38,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="identificador">Identificador del puesto de trabajo:</label>
-                                    <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control">
+                                    <input [(ngModel)]="jobP.id_puesto_trabajo" type="text" id="identificador" name="identificador" class="form-control"
+                                    (keyup)="filtrarIdPuesto($event)">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -85,7 +86,7 @@
                                
                                 <div class="form-group">
                                     <label for="edad">Edad:</label>
-                                    <input [(ngModel)]="worker.Edad" type="number" id="edad" name="edad" class="form-control">
+                                    <input [(ngModel)]="worker.Edad" type="text" id="edad" name="edad" class="form-control"  (keyup)="filtrarEdad($event)">
                                 </div>
                             </div>
                         </div>
@@ -122,37 +123,45 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="masa">Masa (Kg):</label>
-                                    <input [(ngModel)]="flootM.masa" type="number" id="masa" name="masa" class="form-control">
+                                    <input [(ngModel)]="flootM.masa" type="text" id="masa" name="masa" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="estatura">Estatura (cm):</label>
-                                    <input [(ngModel)]="flootM.estatura" type="number" id="estatura" name="estatura" class="form-control">
+                                    <input [(ngModel)]="flootM.estatura" type="text" id="estatura" name="estatura" class="form-control" 
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-ojo">Altura ojo (cm):</label>
-                                    <input [(ngModel)]="flootM.altura_ojo"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    <input [(ngModel)]="flootM.altura_ojo"type="text" id="altura-ojo" name="altura-ojo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-hombro">Altura hombro (cm):</label>
-                                    <input [(ngModel)]="flootM.altura_hombro"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    <input [(ngModel)]="flootM.altura_hombro"type="text" id="altura-hombro" name="altura-hombro" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="altura-codo">Altura codo (cm):</label>
-                                    <input [(ngModel)]="flootM.altura_codo"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    <input [(ngModel)]="flootM.altura_codo"type="text" id="altura-codo" name="altura-codo" class="form-control" 
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-entrepierna">Altura de la entre pierna (cm):</label>
-                                    <input [(ngModel)]="flootM.altura_entre_pierna"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                                    <input [(ngModel)]="flootM.altura_entre_pierna"type="text" id="altura-entrepierna" name="altura-entrepierna" class="form-control" 
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="profundidad-cuerpo">Profundidad del cuerpo (cm):</label>
-                                    <input  [(ngModel)]="flootM.profundidad_cuerpo_de_pie"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                                    <input  [(ngModel)]="flootM.profundidad_cuerpo_de_pie"type="text" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Anchura de la cadera (cm):</label>
-                                    <input [(ngModel)]="flootM.anchura_cadera_pie"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="flootM.anchura_cadera_pie"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                             </div>
                         </div>
@@ -164,23 +173,28 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="masa">Altura sentado (cm):</label>
-                                    <input [(ngModel)]="sittingM.altura_sentado" type="number" id="masa" name="masa" class="form-control">
+                                    <input [(ngModel)]="sittingM.altura_sentado" type="text" id="masa" name="masa" class="form-control" 
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="estatura">Altura de ojo (cm):</label>
-                                    <input [(ngModel)]="sittingM.altura_ojo" type="number" id="estatura" name="estatura" class="form-control">
+                                    <input [(ngModel)]="sittingM.altura_ojo" type="text" id="estatura" name="estatura" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-ojo">Altura cervical (cm):</label>
-                                    <input [(ngModel)]="sittingM.altura_cervical"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    <input [(ngModel)]="sittingM.altura_cervical"type="text" id="altura-ojo" name="altura-ojo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-hombro">Altura hombro (cm):</label>
-                                    <input [(ngModel)]="sittingM.altura_hombro"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    <input [(ngModel)]="sittingM.altura_hombro"type="text" id="altura-hombro" name="altura-hombro" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-codo">Altura codo (cm):</label>
-                                    <input [(ngModel)]="sittingM.altura_codo"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    <input [(ngModel)]="sittingM.altura_codo"type="text" id="altura-codo" name="altura-codo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                             </div>
@@ -188,24 +202,29 @@
                                 
                                 <div class="form-group">
                                     <label for="altura-entrepierna">Longitud del hombro-codo (cm):</label>
-                                    <input [(ngModel)]="sittingM.longitud_hombro_codo"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                                    <input [(ngModel)]="sittingM.longitud_hombro_codo"type="text" id="altura-entrepierna" name="altura-entrepierna" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="profundidad-cuerpo">Ancho del hombro (bideltoide) (cm):</label>
-                                    <input  [(ngModel)]="sittingM.ancho_hombro"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                                    <input  [(ngModel)]="sittingM.ancho_hombro"type="text" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Amplitud entre los codos (cm):</label>
-                                    <input [(ngModel)]="sittingM.amplitud_codos"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="sittingM.amplitud_codos"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Amplitud de cadera (cm):</label>
-                                    <input [(ngModel)]="sittingM.amplitud_cadera"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="sittingM.amplitud_cadera"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="altura-cadera">Amplitud del pliegue plopiteo (cm):</label>
-                                    <input [(ngModel)]="sittingM.altura_pliegue_popliteo"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="sittingM.altura_pliegue_popliteo"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                             </div>
@@ -213,7 +232,8 @@
                         </div>
                         <div class="form-group">
                             <label for="altura-cadera">Altura de rodilla (cm):</label>
-                            <input [(ngModel)]="sittingM.altura_rodilla"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                            <input [(ngModel)]="sittingM.altura_rodilla"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                             (keyup)="filtrarInput($event)">
                         </div>
                     </div>
             
@@ -223,35 +243,43 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="masa">Longitud de la mano (cm):</label>
-                                    <input [(ngModel)]="segmentM.longitud_mano" type="number" id="masa" name="masa" class="form-control">
+                                    <input [(ngModel)]="segmentM.longitud_mano" type="text" id="masa" name="masa" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="estatura">Longitud de la palma (cm):</label>
-                                    <input [(ngModel)]="segmentM.longitud_palma" type="number" id="estatura" name="estatura" class="form-control">
+                                    <input [(ngModel)]="segmentM.longitud_palma" type="text" id="estatura" name="estatura" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-ojo">Amplitud de la mano en los metarcarpianos (cm):</label>
-                                    <input [(ngModel)]="segmentM.amplitud_mano_metacarpios"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    <input [(ngModel)]="segmentM.amplitud_mano_metacarpios"type="text" id="altura-ojo" name="altura-ojo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-hombro">Longitud del dedo índice (cm):</label>
-                                    <input [(ngModel)]="segmentM.longitud_dedo_indice"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    <input [(ngModel)]="segmentM.longitud_dedo_indice"type="text" id="altura-hombro" name="altura-hombro" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-codo">Anchura del dedo índice proximal (cm):</label>
-                                    <input [(ngModel)]="segmentM.anchura_dedo_indice_proximal"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    <input [(ngModel)]="segmentM.anchura_dedo_indice_proximal"type="text" id="altura-codo" name="altura-codo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-codo">Anchura del dedo índice distal (cm):</label>
-                                    <input [(ngModel)]="segmentM.ancho_dedo_indice_distal"type="number" id="altura-codo" name="altura-codo" class="form-control">
+                                    <input [(ngModel)]="segmentM.ancho_dedo_indice_distal"type="text" id="altura-codo" name="altura-codo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-entrepierna">Longitud del pie(cm):</label>
-                                    <input [(ngModel)]="segmentM.longitud_pie"type="number" id="altura-entrepierna" name="altura-entrepierna" class="form-control">
+                                    <input [(ngModel)]="segmentM.longitud_pie"type="text" id="altura-entrepierna" name="altura-entrepierna" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="profundidad-cuerpo">Ancho del pie (cm):</label>
-                                    <input  [(ngModel)]="segmentM.ancho_pie"type="number" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control">
+                                    <input  [(ngModel)]="segmentM.ancho_pie"type="text" id="profundidad-cuerpo" name="profundidad-cuerpo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                                 
@@ -261,36 +289,44 @@
                                 
                                 <div class="form-group">
                                     <label for="altura-cadera">Longitud de la cabeza (cm):</label>
-                                    <input [(ngModel)]="segmentM.longitud_cabeza"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.longitud_cabeza"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Ancho de la cabeza (cm):</label>
-                                    <input [(ngModel)]="segmentM.ancho_cabeza"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.ancho_cabeza"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="altura-cadera">Circunferencia de la cabeza (cm):</label>
-                                    <input [(ngModel)]="segmentM.circunferencia_cabeza"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.circunferencia_cabeza"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Arco Bitragion (cm):</label>
-                                    <input [(ngModel)]="segmentM.arco_bitragion"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.arco_bitragion"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Longitud del pulgar (cm):</label>
-                                    <input [(ngModel)]="segmentM.longitud_pulgar"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.longitud_pulgar"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Ancho del pulgar (cm):</label>
-                                    <input [(ngModel)]="segmentM.ancho_pulgar"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.ancho_pulgar"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Circunferencia del brazo flexionado (cm):</label>
-                                    <input [(ngModel)]="segmentM.circunferencia_brazo_flexionado"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.circunferencia_brazo_flexionado"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Circunferencia del antebrazo flexionado (cm):</label>
-                                    <input [(ngModel)]="segmentM.circunferencia_antebrazo_flexionado"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="segmentM.circunferencia_antebrazo_flexionado"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                             </div>
@@ -305,19 +341,23 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="masa">Alcanze del agarre , hacia adelante (cm):</label>
-                                    <input [(ngModel)]="functionalM.alcance_agarre" type="number" id="masa" name="masa" class="form-control">
+                                    <input [(ngModel)]="functionalM.alcance_agarre" type="text" id="masa" name="masa" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="estatura">Longitud del codo-muñeca (cm):</label>
-                                    <input [(ngModel)]="functionalM.longitud_codo_munieca" type="number" id="estatura" name="estatura" class="form-control">
+                                    <input [(ngModel)]="functionalM.longitud_codo_munieca" type="text" id="estatura" name="estatura" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-ojo">Longitud del agarre del codo (cm):</label>
-                                    <input [(ngModel)]="functionalM.longitud_agarre_codo"type="number" id="altura-ojo" name="altura-ojo" class="form-control">
+                                    <input [(ngModel)]="functionalM.longitud_agarre_codo"type="text" id="altura-ojo" name="altura-ojo" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-hombro">Altura del puño(cm):</label>
-                                    <input [(ngModel)]="functionalM.altura_punio"type="number" id="altura-hombro" name="altura-hombro" class="form-control">
+                                    <input [(ngModel)]="functionalM.altura_punio"type="text" id="altura-hombro" name="altura-hombro" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                             </div>
@@ -326,20 +366,24 @@
                                 
                                 <div class="form-group">
                                     <label for="altura-cadera">Profundidad del asiento (cm):</label>
-                                    <input [(ngModel)]="functionalM.profundidad_asiento"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="functionalM.profundidad_asiento"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Longitud de la rodilla-glúteo (cm):</label>
-                                    <input [(ngModel)]="functionalM.longitud_rodilla_gluteo"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="functionalM.longitud_rodilla_gluteo"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="altura-cadera">Circunferencia de la cintura (cm):</label>
-                                    <input [(ngModel)]="functionalM.circunferencia_cintura"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="functionalM.circunferencia_cintura"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 <div class="form-group">
                                     <label for="altura-cadera">Circunferencia de la muñeca (cm):</label>
-                                    <input [(ngModel)]="functionalM.circunferencia_munieca"type="number" id="altura-cadera" name="altura-cadera" class="form-control">
+                                    <input [(ngModel)]="functionalM.circunferencia_munieca"type="text" id="altura-cadera" name="altura-cadera" class="form-control"
+                                     (keyup)="filtrarInput($event)">
                                 </div>
                                 
                             </div>
@@ -360,7 +404,7 @@
                 <div>
                     <h2 class="text-center mt-4 mb-3">Datos de la Actividad</h2>
                 </div>
-                <fieldset [disabled]="datosAntropometricos">
+                <fieldset [disabled]="!datosAntropometricos">
                     <form (ngSubmit)="createEval()" #evaluationForm="ngForm" enctype="multipart/form-data">
                         <div>
                             <div class="row">
@@ -497,7 +541,8 @@
                             </div>
                             <div>
                                 <label>Capacidad de carga</label>
-                                <input [(ngModel)]="gripC.valor" type="number" class="form-control" id="capacidadcarga" name="capacidadcarga">
+                                <input [(ngModel)]="gripC.valor" type="text" class="form-control" id="capacidadcarga" name="capacidadcarga"
+                                 (keyup)="filtrarInput($event)">
                             </div>
                           
                             <div class="text-center">

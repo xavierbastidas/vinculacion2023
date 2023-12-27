@@ -16,10 +16,12 @@ import {  createWorker ,
      addInjury,
      addDiase,
      addMedicine,
-     addGripCapacity} from "../controllers/form.controller.js";
+     addGripCapacity,
+     checkIdPuestoBD} from "../controllers/form.controller.js";
+import { requireToken } from "../middlewares/requireToken.js";
 const router = Router();
 router.post('/registerWorker',createWorker);
-router.post('/jobPosition',createJobPosition);
+router.post('/jobPosition',requireToken,createJobPosition);
 router.post('/flootM',flootMeasurements);
 router.post('/sittingM',sittingMeasurements);
 router.post('/segmentM',segmentMeasurements);
@@ -33,7 +35,8 @@ router.post('/addDiase',addDiase);
 router.post('/addMedicine',addMedicine);
 router.post('/addGripCapacity',addGripCapacity);
 router.post('/registerMuscleA',createMuscleActivity);
-router.get('/pollster/:id_usuario_pertenece',getIdPollster);
+router.post("/checkIdPuestoBD",checkIdPuestoBD)
+router.get('/pollster/:id_usuario_pertenece',getIdPollster);  
 router.get('/campus',getCampus);
 
 

@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule ,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdminComponent } from './components/roles/admin/admin.component';
+import { AdminComponent } from './components/roles/administrator/admin/admin.component';
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -16,6 +16,8 @@ import { PollsterComponent } from './components/roles/pollster/pollster.componen
 import { PagenotfoundComponent } from './pages/pagenotfound/pagenotfound.component';
 import { RegistersurveyComponent } from './components/survey/registersurvey/registersurvey.component';
 import { ViewsurveyComponent } from './components/survey/viewsurvey/viewsurvey.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ViewsurveysComponent } from './components/roles/administrator/viewsurveys/viewsurveys.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,8 @@ import { ViewsurveyComponent } from './components/survey/viewsurvey/viewsurvey.c
     PollsterComponent,
     PagenotfoundComponent,
     RegistersurveyComponent,
-    ViewsurveyComponent
+    ViewsurveyComponent,
+    ViewsurveysComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { ViewsurveyComponent } from './components/survey/viewsurvey/viewsurvey.c
     ToastrModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [AuthGuard , 
   {

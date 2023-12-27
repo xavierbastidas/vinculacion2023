@@ -8,14 +8,14 @@ const router = Router();
 
 router.post(
     "/register",
-    bodyRegisterValidator,
     requireToken,
+    bodyRegisterValidator,
     register
   );
 router.post("/login",
 bodyLoginValidator,
 login);
-router.post("/admin",bodyRegisterValidatorAP,registerAdmin);
+router.post("/admin", requireToken,bodyRegisterValidatorAP,registerAdmin);
 router.post("/pollster",bodyRegisterValidatorAP,registerPollster);
 router.get("/:id_usuario", getIdRole);
 router.post("/checkEmailBD",checkEmailBD)  

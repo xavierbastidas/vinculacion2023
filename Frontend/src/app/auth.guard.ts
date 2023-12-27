@@ -10,41 +10,41 @@ import { catchError , map} from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
   constructor(private userService: UsersService, private router: Router) {}
 
-
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const isAuthenticated = this.userService.loggedIn();
-  
+
     if (isAuthenticated) {
       const userId = this.userService.getUserIdFromToken();
-  
+
       if (userId) {
         return this.userService.getIdRole(userId).pipe(
           map((userRole: number) => {
-            if (
-              (route.url[1].path === 'admin' ||
-                (route.url[1].path === 'admin' && route.url[2].path === 'register-pollster')) &&
-              userRole !== 1
-            ) {
-              this.router.navigate(['/sistema-mediciones/pollster']);
-              return false;
+            const isAdmin = userRole === 1;
+            const isPollster = userRole === 2;
+            const requestedPath = route.url[2]?.path || '';
+
+            if (isAdmin && (route.url[1].path === 'admin' || requestedPath === 'register-pollster')) {
+              return true;
             }
-  
-            if (
-              route.url[1].path === 'pollster' &&
-              userRole !== 2
-            ) {
-              this.router.navigate(['/sistema-mediciones/admin']);
-              return false;
+
+            if (isPollster && (route.url[1].path === 'pollster' || requestedPath === 'register-survey' || requestedPath === 'view-survey')) {
+              return true;
             }
-  
-            return true;
+
+            this.router.navigate([isAdmin ? '/sistema-mediciones/admin' : '/sistema-mediciones/pollster']);
+            return false;
           }),
           catchError(() => of(false))
         );
       }
     }
-  
+
     this.router.navigate(['/sistema-mediciones/login']);
     return of(false);
   }
-}  
+}
+
+
+
+
+  

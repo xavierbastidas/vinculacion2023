@@ -4,7 +4,7 @@ import { Campus } from '../../../models/campus';
 import { JobPosition } from '../../../models/jposition';
 import { Worker } from '../../../models/worker';
 import { UploadService } from '../../../services/upload.service';
-import { forkJoin, isEmpty, map } from 'rxjs';
+import { forkJoin, isEmpty, map, throwError } from 'rxjs';
 import { FlootMeasurements } from '../../../models/fmeasures';
 import { ViewChild, ElementRef } from '@angular/core';
 import { SittingMeasurements } from '../../../models/smeasures';
@@ -212,22 +212,141 @@ validateSelection() {
   }
   
 
-  valEval() {
-    const objectsToCheck = [this.jobP, this.workerAux, this.worker, this.flootM, this.sittingM, this.segmentM, this.functionalM];
+
+  async valEval(): Promise<boolean> {
+    try {
+      const objectsToCheck = [this.jobP, this.workerAux, this.worker, this.flootM, this.sittingM, this.segmentM, this.functionalM];
     
-    for (const obj of objectsToCheck) {
-      if (Object.keys(obj).length === 0 || Object.values(obj).some(val => val === null || val === '')) {
-        console.log('Por favor, ingrese datos válidos para la evaluación');
+      for (const obj of objectsToCheck) {
+        if (Object.keys(obj).length === 0 || Object.values(obj).some(val => val === null || val === '')) {
+          alert('Por favor, ingrese datos válidos para la evaluación');
+          return false;
+        }
+      }
+    
+      const response = await this.formService.checkIdPuestoBD({ id_puesto_trabajo: this.jobP.id_puesto_trabajo }).toPromise();
+      const valCedula = this.validarCedula(this.jobP.id_puesto_trabajo);
+  
+      if (!valCedula) {
+        alert('Por favor, ingrese una cédula válida');
         return false;
       }
-    }
   
-    this.datosAntropometricos = true;
-    this.mostrarDatosActividad();
-    this.datosActividad = false;
-    console.log('Datos almacenados para la evaluación');
+      if (response) {
+        alert('Evaluación existente, por favor ingrese otro ID de puesto de trabajo');
+        return false;
+      } else {
+        this.datosAntropometricos = true;
+        this.mostrarDatosActividad();
+        this.datosActividad = false;
+        return true;
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  
+
+
+  
+  valImg(...images: any[]) {
+    for (const img of images) {
+       if(!img){
+        return false;
+       }
+    }
     return true;
   }
+
+
+  valActivity(){
+    const objectsToCheck = [this.activity, this.activityAux, this.muscleA, this.forceType,
+       this.gripF, this.injury, this.diase,this.medicine,this.gripC];
+  
+    for (const obj of objectsToCheck) {
+      if (Object.keys(obj).length === 0 || Object.values(obj).some(val => val === null || val === '')) {
+        return true;
+      }
+    }
+      return false; 
+  }
+
+
+  validarNumerosDecimales(valor: string): boolean {
+    const regexNumerosDecimales = /^\d{0,4}(\.\d{0,2})?$/;
+    return regexNumerosDecimales.test(valor);
+  }
+  
+  filtrarInput(event: Event) {
+    const input = (event.target as HTMLInputElement).value;
+    const filteredValue = input.replace(/[^0-9.]/g, ''); 
+    const maxLength = 5; 
+    if (filteredValue.length > maxLength) {
+
+      (event.target as HTMLInputElement).value = filteredValue.slice(0, maxLength);
+    } else {
+      (event.target as HTMLInputElement).value = filteredValue;
+    }
+  }
+  
+  validarEdad(valor: string): boolean {
+    const regexEdad = /^\d{0,3}$/;
+    return regexEdad.test(valor);
+  }
+  
+  filtrarEdad(event: Event) {
+    const input = (event.target as HTMLInputElement).value;
+    const filteredValue = input.replace(/\D/g, ''); // Solo números permitidos
+    const maxLength = 3; // Máximo de 3 dígitos permitidos
+    if (filteredValue.length > maxLength) {
+      
+      (event.target as HTMLInputElement).value = filteredValue.slice(0, maxLength);
+    } else {
+      
+      (event.target as HTMLInputElement).value = filteredValue;
+    }
+  }
+
+
+  validarIdPuesto(valor: string): boolean {
+    const regexIdPuesto = /^\d{0,10}$/; 
+    return regexIdPuesto.test(valor);
+  }
+  
+  filtrarIdPuesto(event: Event) {
+    const input = (event.target as HTMLInputElement).value;
+    const filteredValue = input.replace(/\D/g, ''); // Filtra solo números
+    const maxLength = 10; // Máximo de 10 caracteres permitidos
+    if (filteredValue.length > maxLength) {
+      (event.target as HTMLInputElement).value = filteredValue.slice(0, maxLength);
+    } else {
+      (event.target as HTMLInputElement).value = filteredValue;
+    }
+  }
+  
+   validarCedula(cedula: string): boolean {
+
+    if (!/^\d{10}$/.test(cedula)) {
+      return false;
+    }
+  
+    const digitos = cedula.split('').map(Number);
+    const digitoVerificador = digitos.pop();
+    const digitoCalculado = digitos.reduce((acc, val, idx) => {
+      const multiplicador = idx % 2 === 0 ? 2 : 1;
+      let resultado = val * multiplicador;
+      if (resultado > 9) {
+        resultado -= 9;
+      }
+      return acc + resultado;
+    }, 0);
+  
+    const digitoEsperado = (Math.ceil(digitoCalculado / 10) * 10) - digitoCalculado;
+  
+    return digitoEsperado === digitoVerificador;
+  }
+  
   
 
 
@@ -235,6 +354,16 @@ validateSelection() {
 
 
   createEval(){
+
+    const valActivity = this.valActivity();
+  
+    if(valActivity ){
+      alert('Por favor, Ingrese datos válidos para la evaluación');
+      return;
+    }
+
+   
+
     const id_usuario_pertenece = this.userService.getUserIdFromToken();
     this.formService.getIdPollster(id_usuario_pertenece).subscribe(
       (response) => {
@@ -248,7 +377,9 @@ validateSelection() {
         this.formService.createJobPosition(jobPosition).subscribe(
           ()=>{ 
           },(error)=>{
-            console.log(error);
+            if (error === 401) {
+              alert('Por favor, vuelva a iniciar sesión');
+            }
           }
         )
       },
@@ -260,11 +391,12 @@ validateSelection() {
     const image1 = this.workerAux.imagen_trabajador1.file;
     const image2 = this.workerAux.imagen_trabajador2.file;
 
-    if (!image1 || !image2) {
-      console.error('No se han seleccionado todas las imágenes.');
+
+    const valImg = this.valImg(image1,image2);
+    if (!valImg) {
+      alert('No se han seleccionado todas las imágenes.');
       return;
     }
-  
     const uploadImage1$ = this.uploadService.uploadImage(image1);
     const uploadImage2$ = this.uploadService.uploadImage(image2);
   
@@ -400,8 +532,9 @@ validateSelection() {
             const img1 = this.activityAux.imagen1.file;
             const img2 = this.activityAux.imagen2.file;
             const img3 = this.activityAux.imagen3.file;
-            if (!img1 || !img2 || !img3) {
-              console.error('No se han seleccionado todas las imágenes.');
+            const valImgs = this.valImg(img1,img2,img3);
+            if (!valImgs) {
+              alert('No se han seleccionado todas las imágenes.');
               return;
             }
             const uploadImg1$ = this.uploadService.uploadImage(img1);
@@ -452,10 +585,6 @@ validateSelection() {
                         id_actividad_pertenece :Number(res)
  
                       };  
-
-
-                      //Activities
-
                       this.formService.muscleAcitivity(muscleActivity).subscribe(
                         ()=>{
                         },(error)=>{
@@ -465,10 +594,6 @@ validateSelection() {
 
                       this.formService.forceType(forceType).subscribe(
                         (resF)=>{
-
-                          // En tu componente TypeScript
-                          
-                         
 
                            const valSelection = this.validateSelection();
 
@@ -539,7 +664,7 @@ validateSelection() {
       
    this.formService.gripCapacity(gripcapacity).subscribe(
     ()=>{
-      console.log('Evaluacion creada ezitosamente')
+      alert('Evaluacion creada exitosamente')
     },(error)=>{
       throw new Error(error)
     }
@@ -551,15 +676,19 @@ validateSelection() {
      }
     );
 
-
-
-    
   }
   
 
 
 
 
-}
 
-    
+
+
+  }
+
+
+
+
+
+

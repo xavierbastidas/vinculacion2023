@@ -268,7 +268,7 @@ export const getIdPollster = async (req, res) => {
     }
     res.json(id_encuestador);
   } catch (error) {
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: error });
   }
 }
 
@@ -286,6 +286,19 @@ export const getCampus = async (req,res)=>{
 
 
 
+export const checkIdPuestoBD  = async (req,res)=>{
+  const {id_puesto_trabajo} = req.body;
+  try {
+      const id_puesto = await JobPosition.findOne({ where: { id_puesto_trabajo } });
+      if (id_puesto) {
+          return res.json(true); 
+      } else {
+          return res.json(false); 
+      }
+  } catch (error) {
+      return res.status(500).json({ error: 'Error verifying id_job_position' });
+  }
+}
 
 
 

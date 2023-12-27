@@ -5,7 +5,7 @@ export const  generateToken = (id_usuario) =>{
     const token = jwt.sign({id_usuario},process.env.JWT,{expiresIn});
     return {token}
   } catch (error) {
-    console.log(error)
+    throw new Error(error)
   }  
 };
 

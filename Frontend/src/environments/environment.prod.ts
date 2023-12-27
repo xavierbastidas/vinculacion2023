@@ -1,5 +1,9 @@
 
 import * as CryptoJS from 'crypto-js';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
+
+
 export const environment = {
     production: true,
     SECRET: '7lLtLYkLJbsUqOAVGjYqN76O4PQtQrNt',
@@ -17,6 +21,13 @@ export const environment = {
 
  export const  encryptData =(data: string, key: string): string =>{
     return CryptoJS.AES.encrypt(data, key).toString();
+  }
+
+ export const  handleExpiredTokenError= (error: HttpErrorResponse) =>{
+    if (error.status === 401) {
+      return throwError(401);
+    }
+    return throwError(error);
   }
 
  
