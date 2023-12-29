@@ -1,1 +1,51 @@
-<p>viewsurveys works!</p>
+<div class="container mt-3">
+  <h2 class="text-center mb-4">Listado de Evaluaciones</h2>
+
+  <ng-container *ngIf="jobP.length > 0; else loading">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID Puesto de Trabajo</th>
+          <th>Departamento/Área</th>
+          <th>ID Campus</th>
+          <th>ID Encuestador</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let position of getPaginatedData()">
+          <td>{{ position.id_puesto_trabajo }}</td>
+          <td>{{ position.departamento_area }}</td>
+          <td>{{ position.id_campus_pertenece }}</td>
+          <td>{{ position.id_encuestador_pertenece }}</td>
+          <td>
+            <button class="btn btn-sm" style="background-color: #3c5e4e; color: white;" (click)="openEvaluationWindow(position)">Ver Evaluación</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="container text-center">
+      <button [disabled]="currentPage === 1" class="btn btn-sm btn-primary mr-2" (click)="previousPage()">Anterior</button>
+      <button [disabled]="currentPage === totalPages" class="btn btn-sm btn-primary" (click)="nextPage()">Siguiente</button>
+      <p class="mt-2">Mostrando {{ firstItemOnPage }} - {{ lastItemOnPage }} de {{ jobP.length }}</p>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="5" class="text-center">
+            <h4>Cargando datos...</h4>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5" class="text-center">Espere un momento</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

@@ -12,7 +12,5 @@ export interface SittingMeasurements{
         amplitud_cadera: number;
         altura_pliegue_popliteo: number;
         altura_rodilla: number;
-        id_trabajador_pertenece: number;
-      
-      
+        id_trabajador_pertenece: number; 
 }

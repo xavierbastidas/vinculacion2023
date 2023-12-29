@@ -9,7 +9,8 @@ export const environment = {
     SECRET: '7lLtLYkLJbsUqOAVGjYqN76O4PQtQrNt',
     apiUrlForm:"http://localhost:3000/api/v1/form/",
     apiUrlImage : "http://localhost:3000/api/v1/images/",
-    apiUrlAuth : "http://localhost:3000/api/v1/users/"
+    apiUrlAuth : "http://localhost:3000/api/v1/users/",
+    apiUrlGetForm:"http://localhost:3000/api/v1/getform/"
   };
   
   export const decryptData = (encryptedData: string, key: string): string => {

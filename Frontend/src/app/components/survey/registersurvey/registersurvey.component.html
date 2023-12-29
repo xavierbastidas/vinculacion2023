@@ -458,19 +458,21 @@
                             </div>
                             <div>
                                 <h2>Informacion de la Actividad</h2>
-                                <p>Seleccionar (una o mas de una) segun la actividad muscular o fuerza</p>
+                                <p>Seleccionar (una o mas de una) segun la actividad muscular y fuerza</p>
                                 <div>
                                     <label>
                                       <input type="checkbox" (change)="selectMuscleActivity('cuerpo_estatico')" [checked]="muscleA.cuerpo_estatico" name="cuerpo_estatico">
-                                      Una o más partes del cuerpo permanecen estáticas
+                                      Una o más partes del cuerpo permanecen estáticas , por ejemplo soportadas durante
+                                      más de 1 minuto.
                                     </label>
                                     <label>
                                       <input type="checkbox" (change)="selectMuscleActivity('movimientos_repetitivos')" [checked]="muscleA.movimientos_repetitivos" name="movimientos_repetitivos">
-                                      Se producen movimientos repetitivos
+                                      Se producen movimientos repetitivos , por ejemplo repetidos más de 4 veces por minuto
+                                      (excluyendo caminar)
                                     </label>
                                     <label>
                                       <input type="checkbox" (change)="selectMuscleActivity('cambios_postura')" [checked]="muscleA.cambios_postura" name="cambios_postura">
-                                      Se producen cambios de postura importantes
+                                      Se producen cambios de postura importantes o se adoptan posturas inestables
                                     </label>
                                   </div>
                                   

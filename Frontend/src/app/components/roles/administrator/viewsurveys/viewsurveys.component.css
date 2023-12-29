@@ -1,0 +1,42 @@
+/* Estilo para los botones de navegación y botón Ver Evaluación */
+.btn-navegacion,
+.btn-ver-evaluacion {
+  margin-bottom: 10px; /* Agrega espacio entre los botones */
+}
+
+.btn-ver-evaluacion {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.btn-ver-evaluacion:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+/* Estilo para la tabla */
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  color: #fff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}

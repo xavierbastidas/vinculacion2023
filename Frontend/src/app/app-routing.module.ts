@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'sistema-mediciones/pollster', component: PollsterComponent, canActivate: [AuthGuard] },
   { path: 'sistema-mediciones/pollster/register-survey', component: RegistersurveyComponent , canActivate: [AuthGuard] },
   { path: 'sistema-mediciones/pollster/view-survey', component: ViewsurveyComponent , canActivate: [AuthGuard]},
-  { path: 'sistema-mediciones/admin/view-surveys', component: ViewsurveysComponent },
+  { path: 'sistema-mediciones/admin/view-surveys', component: ViewsurveysComponent ,  canActivate: [AuthGuard] },
 
 
   {path:'**',component:PagenotfoundComponent},
