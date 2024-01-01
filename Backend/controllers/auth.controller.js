@@ -16,7 +16,6 @@ export const register = async (req,res)=>{
         const { id_usuario } = new_User.toJSON();
         res.status(201).json(id_usuario);
     } catch (error) {
-        console.log(error)
         res.status(500).json({error:error})
     }
 };
@@ -71,7 +70,7 @@ export const login = async (req, res) => {
         }
         res.json({ token, id_rol, nombre });
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ error: error.message });
     }
 };
 

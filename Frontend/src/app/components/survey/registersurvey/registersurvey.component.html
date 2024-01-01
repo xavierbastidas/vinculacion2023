@@ -116,7 +116,7 @@
                     </div>
             
                     <div>
-                        <h2 class="text-center">Mediciones Antropométricas básicas</h2>
+                        <h2 class="text-center">Mediciones Antropométricas Básicas</h2>
                         <p class="text-center">Mediciones tomadas mientras la persona está de pie</p>
                         <div class="row">
                             <div class="col-md-6 ">
@@ -461,95 +461,111 @@
                                 </div>
                             </div>
                             <div>
-                                <h2>Informacion de la Actividad</h2>
-                                <p>Seleccionar (una o mas de una) segun la actividad muscular y fuerza</p>
-                                <div>
-                                    <label>
-                                      <input type="checkbox" (change)="selectMuscleActivity('cuerpo_estatico')" [checked]="muscleA.cuerpo_estatico" name="cuerpo_estatico">
-                                      Una o más partes del cuerpo permanecen estáticas , por ejemplo soportadas durante
-                                      más de 1 minuto.
-                                    </label>
-                                    <label>
-                                      <input type="checkbox" (change)="selectMuscleActivity('movimientos_repetitivos')" [checked]="muscleA.movimientos_repetitivos" name="movimientos_repetitivos">
-                                      Se producen movimientos repetitivos , por ejemplo repetidos más de 4 veces por minuto
-                                      (excluyendo caminar)
-                                    </label>
-                                    <label>
-                                      <input type="checkbox" (change)="selectMuscleActivity('cambios_postura')" [checked]="muscleA.cambios_postura" name="cambios_postura">
-                                      Se producen cambios de postura importantes o se adoptan posturas inestables
-                                    </label>
-                                  </div>
+                                <h2>Información de la Actividad</h2>
+                                <p><strong>Selecciona una o más opciones</strong> según la actividad muscular y fuerza:</p>
+<div>
+    <label style="font-weight: bold;">
+        <input type="checkbox" (change)="selectMuscleActivity('cuerpo_estatico')" [checked]="muscleA.cuerpo_estatico" name="cuerpo_estatico">
+        Una o más partes del cuerpo permanecen estáticas, por ejemplo, soportadas durante más de 1 minuto.
+    </label>
+    <label style="font-weight: bold;">
+        <input type="checkbox" (change)="selectMuscleActivity('movimientos_repetitivos')" [checked]="muscleA.movimientos_repetitivos" name="movimientos_repetitivos">
+        Se producen movimientos repetitivos, por ejemplo, repetidos más de 4 veces por minuto (excluyendo caminar).
+    </label>
+    <label style="font-weight: bold;">
+        <input type="checkbox" (change)="selectMuscleActivity('cambios_postura')" [checked]="muscleA.cambios_postura" name="cambios_postura">
+        Se producen cambios de postura importantes o se adoptan posturas inestables.
+    </label>
+</div>
+
+                                
                                   
                             </div>
                             <div>
-                                <p>Indique la fuerza ejercida por el trabajador (solo se puede escoger una)</p>
-                                <div>
-                                    <label>
-                                      <input type="radio" (change)="selectForceType('menor_cinco_kilo')" [checked]="forceType.menor_cinco_kilo" name="fuerza">
-                                      Carga o fuerza menor de 5kg.
-                                    </label>
-                                    <label>
-                                      <input type="radio" (change)="selectForceType('entre_cinco_diez_kilo')" [checked]="forceType.entre_cinco_diez_kilo" name="fuerza">
-                                      Carga o fuerza entre 5kg y 10kg.
-                                    </label>
-                                    <label>
-                                      <input type="radio" (change)="selectForceType('mayor_diez_kilo')" [checked]="forceType.mayor_diez_kilo" name="fuerza">
-                                      Carga o fuerza mayor de 10kg.
-                                    </label>
-                                  </div>
+                                <p><strong>Indique la fuerza ejercida por el trabajador</strong> (solo se puede escoger una):</p>
+<div>
+    <label style="font-weight: bold;">
+        <input type="radio" (change)="selectForceType('menor_cinco_kilo')" [checked]="forceType.menor_cinco_kilo" name="fuerza">
+        Carga o fuerza menor de 5kg.
+    </label>
+    <label style="font-weight: bold;">
+        <input type="radio" (change)="selectForceType('entre_cinco_diez_kilo')" [checked]="forceType.entre_cinco_diez_kilo" name="fuerza">
+        Carga o fuerza entre 5kg y 10kg.
+    </label>
+    <label style="font-weight: bold;">
+        <input type="radio" (change)="selectForceType('mayor_diez_kilo')" [checked]="forceType.mayor_diez_kilo" name="fuerza">
+        Carga o fuerza mayor de 10kg.
+    </label>
+</div>
+
                                   
                                
                                 
                                 
                             </div>
                             <div class="form-group">
-                                <label for="fuerzabrusca">Existen fuerzas o cargas aplicadas bruscamente?:</label>
+                                <label for="fuerzabrusca" style="font-weight: bold;">¿Se aplican fuerzas o cargas bruscamente?</label>
                                 <select [(ngModel)]="forceExerted.fuerza_brusca" id="fuerzabrusca" name="fuerzabrusca" class="form-control">
-                                    <option value="true">Si</option>
+                                    <option value="true">Sí</option>
                                     <option value="false">No</option>
                                 </select>
                             </div>
+                            
                             <div>
-                                <p>Indique las características de agarre de la carga (solo se puede escoger una)</p>
-                                <div>
-                                    <label>
-                                      <input type="radio" (change)="selectGripFeature('bueno')" [checked]="gripF.bueno" name="grip">
-                                      Bueno: El agarre es bueno y la fuerza de agarre de rango medio.
-                                    </label>
-                                    <label>
-                                      <input type="radio" (change)="selectGripFeature('regular')" [checked]="gripF.regular" name="grip">
-                                      Regular: El agarre es aceptable pero no ideal o el agarre es aceptable utilizando otras partes del cuerpo.
-                                    </label>
-                                    <label>
-                                      <input type="radio" (change)="selectGripFeature('malo')" [checked]="gripF.malo" name="grip">
-                                      Malo: El agarre es posible pero no aceptable.
-                                    </label>
-                                    <label>
-                                      <input type="radio" (change)="selectGripFeature('inaceptable')" [checked]="gripF.inaceptable" name="grip">
-                                      Inaceptable: El agarre es torpe e inseguro, no es posible el agarre manual o el agarre es inaceptable utilizando otras partes del cuerpo.
-                                    </label>
-                                  </div>
-                                  
+                                <p><strong>Indica las características de agarre de la carga</strong> (solo se puede escoger una):</p>
+<div style="text-align: justify;">
+    <label style="font-weight: bold; display: block;">
+        <input type="radio" (change)="selectGripFeature('bueno')" [checked]="gripF.bueno" name="grip">
+        Bueno: El agarre es bueno y la fuerza de agarre de rango medio.
+    </label>
+    <label style="font-weight: bold; display: block;">
+        <input type="radio" (change)="selectGripFeature('regular')" [checked]="gripF.regular" name="grip">
+        Regular: El agarre es aceptable pero no ideal o el agarre es aceptable utilizando otras partes del cuerpo.
+    </label>
+    <label style="font-weight: bold; display: block;">
+        <input type="radio" (change)="selectGripFeature('malo')" [checked]="gripF.malo" name="grip">
+        Malo: El agarre es posible pero no aceptable.
+    </label>
+    <label style="font-weight: bold; display: block;">
+        <input type="radio" (change)="selectGripFeature('inaceptable')" [checked]="gripF.inaceptable" name="grip">
+        Inaceptable: El agarre es torpe e inseguro, no es posible el agarre manual o el agarre es inaceptable
+        <div > utilizando otras partes del cuerpo.</div>
+       
+    </label>
+    
+    
+</div>
+
+                                
+
+                                
                             </div>
-                            <div>
-                                <p>Quiere reportar alguna molestia, adormecimiento o dolor en alguna parte de su cuerpo</p>
+                            <h2 >Datos adicionales del Trabajador</h2>
+                            <div style="font-size: 16px; padding: 5px;">
+                                <label  style="font-weight: bold;">¿Quiere reportar alguna molestia, adormecimiento o dolor en alguna parte de su cuerpo?</label>
                                 <input [(ngModel)]="injury.descripcion" type="text" id="reporteMolestia" name="reporteMolestia">
                             </div>
-                            <div>
-                                <label>Padece alguna enfermedad crónica
+                            <div style="font-size: 16px; padding: 5px;">
+                                <label style="font-weight: bold;">
+                                    Padece alguna enfermedad crónica:
                                     <input [(ngModel)]="diase.nombre_enfermedad" type="text" id="enfermedad" name="enfermedad">
                                 </label>
                             </div>
-                            <div>
-                                <label>Toma algún medicamento de forma regular
+                            <div style="font-size: 16px; padding: 5px;">
+                                <label style="font-weight: bold;">
+                                    Toma algún medicamento de forma regular:
                                     <input [(ngModel)]="medicine.descripcion" type="text" id="medicamento" name="medicamento">
                                 </label>
                             </div>
-                            <div>
-                                <label>Capacidad de carga</label>
+                            <div style="padding: 5px;">
+                                <label style="font-weight: bold;">
+                                    Capacidad de carga
+                                </label>
                                 <input [(ngModel)]="gripC.valor" type="text" class="form-control" id="capacidadcarga" name="capacidadcarga"
-                                 (keyup)="filtrarInput($event)">
+                                    (keyup)="filtrarInput($event)" style="font-size: 16px; padding: 5px;">
                             </div>
+                            
+                            
                           
                             <div class="alert alert-danger d-inline-block" *ngIf="showErrorMessage">
                                 {{ showErrorMessage }}

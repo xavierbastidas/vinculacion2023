@@ -29,5 +29,5 @@ router.get('/injury/:id_trabajador_pertenece',getInjury);
 router.get('/diase/:id_trabajador_pertenece',getDiase);
 router.get('/medicine/:id_trabajador_pertenece',getMedicine);
 router.get('/gripC/:id_trabajador_pertenece',gripCapacity);
-router.get('/viewJobPosition/:id_encuestador',getViewJobPositionID);
+router.get('/viewJobPositionID/:id_encuestador',getViewJobPositionID);
 export default router;

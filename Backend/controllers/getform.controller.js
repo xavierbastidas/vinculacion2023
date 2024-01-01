@@ -18,6 +18,9 @@ import ViewJobPosition from '../models/ViewJobPosition.js';
 export const getViewJobPosition = async (req,res)=>{
     try {
        const viewJobPosition = await ViewJobPosition.findAll();
+       if(viewJobPosition.length===0){
+        return res.status(200).json([{ success: false, message: "No evaluations available." }]);
+       }
        const viewJobPositionArray = viewJobPosition.map(viewJobPosition=>viewJobPosition.toJSON());
        res.json(viewJobPositionArray);
     } catch (error) {
@@ -32,7 +35,8 @@ export const getViewJobPosition = async (req,res)=>{
     try {
         const jobPosition  = await ViewJobPosition.findAll({where:{id_encuestador}});
         if(jobPosition.length===0){
-            return res.status(404).json({error:"Job Position not found"});
+            return res.status(200).json([{ success: false, message: "No evaluations available." }]);
+
         }
         res.json(jobPosition);
     } catch (error) {

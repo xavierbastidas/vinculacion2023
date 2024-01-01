@@ -41,11 +41,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td colspan="5" class="text-center">Espere un momento</td>
+          <tr *ngIf="!viewJobP || viewJobP.length === 0">
+            <td colspan="5" class="text-center">
+              Espere un momento
+              <div *ngIf="messageError">
+                {{ messageError }}
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </ng-template>
+    
   </div>
   

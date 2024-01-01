@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Admin } from '../models/admin';
 import { Pollster } from '../models/pollster';
-import { Observable  , catchError } from 'rxjs';
-import { environment , decryptData , handleExpiredTokenError} from '../../environments/environment.prod';
+import { Observable  , catchError  ,throwError} from 'rxjs';
+import { environment , decryptData , handleExpiredTokenError } from '../../environments/environment.prod';
+
 
 
 @Injectable({
@@ -28,8 +29,9 @@ export class UsersService {
    createPollster(pollster: Pollster): Observable<Pollster> {
     return this.http.post<Pollster>(this.apiUrl + 'pollster', pollster);
   }
-  signInUser(user:User){
-    return this.http.post<User>(this.apiUrl+'login',user);
+  signInUser(user: User) {
+    return this.http.post<User>(this.apiUrl + 'login', user);
+
   }
   loggedIn() {
   return  (this.cookieService.check('2J_JER') && this.cookieService.check('3P_ZAP'));

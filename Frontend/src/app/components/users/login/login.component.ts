@@ -22,39 +22,49 @@ export class LoginComponent  implements OnInit{
   }
  
 
-  
   signIn(): void {
     this.submitted = true;
-    if (!this.user.correo_usuario || !this.user.contrasenia ) {
+    if (!this.user.correo_usuario || !this.user.contrasenia) {
       this.errorMessage = 'Por favor complete todos los campos obligatorios';
       return;
     }
-
+  
     this.userService.signInUser(this.user).subscribe(
-      (res) => this.handleSignInSuccess(res),
-      (err) => this.handleSignInError(err)
+      (res:any) => {
+        if (res.success === false) {
+          this.handleSignInError(res.message);
+        } else {
+          this.handleSignInSuccess(res);
+        }
+      },
+      (err) => {
+        this.handleSignInError('Error de conexión o servidor');
+      }
     );
   }
   
   private handleSignInSuccess(response: any): void {
-    const encryptedT = encryptData(response.token, String( environment.SECRET));
-    const encryptedN = encryptData(response.nombre, String( environment.SECRET));
-    this.cookieService.set('2J_JER', encryptedT,undefined,'/');
-    this.cookieService.set('3P_ZAP', encryptedN,undefined,'/');
-    const id_rol = Number(response.id_rol); 
-    if (id_rol === 1) {
+    const { token, nombre, id_rol } = response;
+    const encryptedT = encryptData(token, String(environment.SECRET));
+    const encryptedN = encryptData(nombre, String(environment.SECRET));
+    this.cookieService.set('2J_JER', encryptedT, undefined, '/');
+    this.cookieService.set('3P_ZAP', encryptedN, undefined, '/');
+    
+    const roleId = Number(id_rol); 
+    if (roleId === 1) {
       this.router.navigate(['/sistema-mediciones/admin']);
     } else {
       this.router.navigate(['/sistema-mediciones/pollster']);
     }
   }
-  private handleSignInError(error: any): void {
-    console.log(error);
-    this.errorMessage = 'Nombre de usuario y/o contraseña incorrectos';
+  
+  private handleSignInError(errorMessage: string): void {
+    this.errorMessage = `Email y/o contraseña incorrectos. ${errorMessage}`;
   }
-};  
 
+  
+  
 
-
+}
 
 

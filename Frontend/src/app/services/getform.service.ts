@@ -93,7 +93,7 @@ export class GetformService {
 
          getViewJobPositionID(id_encuestador:number){
 
-          return this.http.get<ViewJobPosition[]>(`${this.apiUrl}viewJobPosition/${id_encuestador}`)
+          return this.http.get<ViewJobPosition[]>(`${this.apiUrl}viewJobPositionID/${id_encuestador}`)
            }
   
            

@@ -1,7 +1,7 @@
 <div class="container mt-3">
   <h2 class="text-center mb-4">Listado de Evaluaciones</h2>
 
-  <ng-container *ngIf="viewjobP.length > 0; else loading">
+  <ng-container *ngIf="viewJobP.length > 0; else loading">
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -17,7 +17,8 @@
           <td>{{ position.puesto_trabajo }}</td>
           <td>{{ position.departamento }}</td>
           <td>{{ position.nombre_campus }}</td>
-          <td>{{ position.nombre_apellido_encuestador }}</td>
+          <td>{{ position.nombre_apellido_encuestador}}</td>
+         
           <td>
             <button class="btn btn-sm" style="background-color: #3c5e4e; color: white;" (click)="openEvaluationWindow(position)">Ver Evaluación</button>
           </td>
@@ -28,7 +29,7 @@
     <div class="container text-center">
       <button [disabled]="currentPage === 1" class="btn btn-sm btn-primary mr-2" (click)="previousPage()">Anterior</button>
       <button [disabled]="currentPage === totalPages" class="btn btn-sm btn-primary" (click)="nextPage()">Siguiente</button>
-      <p class="mt-2">Mostrando {{ firstItemOnPage }} - {{ lastItemOnPage }} de {{ viewjobP.length }}</p>
+      <p class="mt-2">Mostrando {{ firstItemOnPage }} - {{ lastItemOnPage }} de {{ viewJobP.length }}</p>
     </div>
   </ng-container>
 
@@ -42,10 +43,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colspan="5" class="text-center">Espere un momento</td>
+        <tr *ngIf="!viewJobP || viewJobP.length === 0">
+          <td colspan="5" class="text-center">
+            Espere un momento
+            <div *ngIf="messageError">
+              {{ messageError }}
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
   </ng-template>
+  
 </div>

@@ -14,7 +14,7 @@ import { Injury } from '../../../../models/injury';
 import { Diase } from '../../../../models/diase';
 import { Medicine } from '../../../../models/medicine';
 import { GripCapacity } from '../../../../models/gripcapacity';
-import { ViewJobPosition } from '../../../../models/viewjobposition';
+import { ViewJobPosition} from '../../../../models/viewjobposition';
 
 @Component({
   selector: 'app-viewsurveys',
@@ -22,7 +22,7 @@ import { ViewJobPosition } from '../../../../models/viewjobposition';
   styleUrl: './viewsurveys.component.css'
 })
 export class ViewsurveysComponent implements OnInit {
-  viewjobP: ViewJobPosition[] = [];
+  viewJobP: ViewJobPosition[] = [];
   worker : Worker [] =  [];
   flootM : FlootMeasurements [] = [];
   sittingM :SittingMeasurements [] = [];
@@ -40,6 +40,7 @@ export class ViewsurveysComponent implements OnInit {
   currentPage = 1; 
   itemsPerPage = 5; 
   showAll = false;
+  messageError : string ='';
   constructor(private getFormService : GetformService ,
    ){
 
@@ -48,141 +49,151 @@ export class ViewsurveysComponent implements OnInit {
     this.getEval();
   }
 
-  
-
+   
   getEval() {
 
-    this.getFormService.getViewJobPosition().subscribe(
-      (positions: any[]) => {
-      
-        this.viewjobP = positions;
-        positions.forEach(x => {
-          this.getFormService.getWorker(x.puesto_trabajo).subscribe(
-            (res: any) => {
-              this.worker.push(res);
-              this.getFormService.getFlootMeasurements(res.id_trabajador).subscribe(
-                (response: any) => {
-                  this.flootM.push(response);
-                },
-                (error) => {
-                  throw new Error(error);
-                }
-              );
-              this.getFormService.getSittingMeasurements(res.id_trabajador).subscribe(
-                (sitting) => {
-                  this.sittingM.push(sitting);
-                },
-                (error) => {
-                  throw new Error(error);
-                }
-              );
+        this.getFormService.getViewJobPosition().subscribe(
+          (positions : any[]) => {
+            const positionNotFound = positions.some(position => {
+              if (position.success === false) {
+                this.messageError = position.message;
+                return true; 
+              }
+              return false; 
+            });
+             
+            if(!positionNotFound)
+            {
+             this.viewJobP = positions;
+            positions.forEach(x=>{
+              this.getFormService.getWorker(x.puesto_trabajo).subscribe(
+                (res:any)=>{
+                  this.worker.push(res);
+                  this.getFormService.getFlootMeasurements(res.id_trabajador).subscribe(
+                    (response: any) => {
+                      this.flootM.push(response);
+                    },
+                    (error) => {
+                      throw new Error(error);
+                    }
+                  );
 
-              this.getFormService.getSegmentMeasurements(res.id_trabajador).subscribe(
-                (segment) => {
-                  this.segmentM.push(segment);
-                },
-                (error) => {
-                  throw new Error(error);
-                }
-              );
-              this.getFormService.getFunctionalMeasurements(res.id_trabajador).subscribe(
-                (functional) => {
-                  this.functionalM.push(functional);
-                },
-                (error) => {
-                  throw new Error(error);
-                }
-              );
+                  this.getFormService.getSittingMeasurements(res.id_trabajador).subscribe(
+                    (sitting) => {
+                      this.sittingM.push(sitting);
+                    },
+                    (error) => {
+                      throw new Error(error);
+                    }
+                  );
 
-              this.getFormService.getInjury(res.id_trabajador).subscribe(
-                (resInjury)=>{
-                  this.injury.push(resInjury)
-                },(error)=>{
-                  throw new Error(error);
-                }
-              );
-              this.getFormService.getDiase(res.id_trabajador).subscribe(
-                (resDiase)=>{
-                  this.diase.push(resDiase)
-                },(error)=>{
-                  throw new Error(error);
-                }
-              );
-              this.getFormService.getMedicine(res.id_trabajador).subscribe(
-                (resMedicine)=>{
-                  this.medicine.push(resMedicine)
-                },(error)=>{
-                  throw new Error(error);
-                }
-              );
-
-              this.getFormService.getGripCapacity(res.id_trabajador).subscribe(
-                (gripC)=>{
-                  this.gripCapacity.push(gripC)
-                },(error)=>{
-                  throw new Error(error);
-                }
-              );
-
-
-              this.getFormService.getActivity(res.id_trabajador).subscribe(
-                (activity) => {
-                  this.actiivity.push(activity);
-                   this.getFormService.getMuscleActivity(Number(activity.id_actividad)).subscribe(
-                    (muscle)=>{
-                     this.muscleA.push(muscle);
+                  this.getFormService.getSegmentMeasurements(res.id_trabajador).subscribe(
+                    (segment) => {
+                      this.segmentM.push(segment);
+                    },
+                    (error) => {
+                      throw new Error(error);
+                    }
+                  );
+                  this.getFormService.getFunctionalMeasurements(res.id_trabajador).subscribe(
+                    (functional) => {
+                      this.functionalM.push(functional);
+                    },
+                    (error) => {
+                      throw new Error(error);
+                    }
+                  );
+    
+                  this.getFormService.getInjury(res.id_trabajador).subscribe(
+                    (resInjury)=>{
+                      this.injury.push(resInjury)
                     },(error)=>{
                       throw new Error(error);
                     }
-                   )
-                   this.getFormService.getForceType(Number(activity.id_actividad)).subscribe(
-                    (forceT)=>{
-                      this.forceType.push(forceT);
-                      this.getFormService.getForceExerted(Number(forceT.id_tipo_fuerza)).subscribe(
-                        (forceE)=>{
-                          this.forceExerted.push(forceE);
+                  );
+                  this.getFormService.getDiase(res.id_trabajador).subscribe(
+                    (resDiase)=>{
+                      this.diase.push(resDiase)
+                    },(error)=>{
+                      throw new Error(error);
+                    }
+                  );
+                  this.getFormService.getMedicine(res.id_trabajador).subscribe(
+                    (resMedicine)=>{
+                      this.medicine.push(resMedicine)
+                    },(error)=>{
+                      throw new Error(error);
+                    }
+                  );
+    
+                  this.getFormService.getGripCapacity(res.id_trabajador).subscribe(
+                    (gripC)=>{
+                      this.gripCapacity.push(gripC)
+                    },(error)=>{
+                      throw new Error(error);
+                    }
+                  );
+
+
+                  
+                  this.getFormService.getActivity(res.id_trabajador).subscribe(
+                    (activity)=>{
+                      this.actiivity.push(activity);
+                      this.getFormService.getMuscleActivity(Number(activity.id_actividad)).subscribe(
+                        (muscle)=>{
+                         this.muscleA.push(muscle);
                         },(error)=>{
-                          //forceExerted
+                          throw new Error(error);
                         }
-                      )
-                    },(error)=>{
-                      throw new Error(error);
-                    }
-                   )
+                       )
 
-                   this.getFormService.getGripFeatures(Number(activity.id_actividad)).subscribe(
-                    (gripF)=>{
-                     this.gripFeatures.push(gripF);
+                       this.getFormService.getForceType(Number(activity.id_actividad)).subscribe(
+                        (forceT)=>{
+
+                          this.forceType.push(forceT);
+                          this.getFormService.getForceExerted(Number(forceT.id_tipo_fuerza)).subscribe(
+                            (forceE)=>{
+                              this.forceExerted.push(forceE);
+                            },(error)=>{
+                              throw new Error(error);
+                            }
+                          )
+                        }
+                       )
+                       this.getFormService.getGripFeatures(Number(activity.id_actividad)).subscribe(
+                        (gripF)=>{
+                          this.gripFeatures.push(gripF);
+                        },(err)=>{
+                          throw new Error(err);
+                        }
+                       )
+
+
+
                     },(error)=>{
                       throw new Error(error);
                     }
-                   )
-                },
-                //Activity
-                (error) => {
+                  )
+                 
+                  
+                },(error)=>{
                   throw new Error(error);
+
                 }
-              );
+              )
+            })
 
-
-              //Worker
-            },
-
-            (error) => {
-              throw new Error(error);
             }
-          );
-        });
-      },
-      //JobPosition
-      (error) => {
-        throw new Error(error);
-      }
-    );
+
+          },
+        );
+      
   }
   
+
+  
     getPages(): number[] {
-      return Array(Math.ceil(this.viewjobP.length / this.itemsPerPage)).fill(0).map((x, i) => i + 1);
+      return Array(Math.ceil(this.viewJobP.length / this.itemsPerPage)).fill(0).map((x, i) => i + 1);
     }
 
   showAllData() {
@@ -202,7 +213,7 @@ nextPage() {
 }
 
 get totalPages(): number {
-  return Math.ceil(this.viewjobP.length / this.itemsPerPage);
+  return Math.ceil(this.viewJobP.length / this.itemsPerPage);
 }
 
 get firstItemOnPage(): number {
@@ -211,13 +222,13 @@ get firstItemOnPage(): number {
 
 get lastItemOnPage(): number {
   const endIndex = this.currentPage * this.itemsPerPage;
-  return endIndex > this.viewjobP.length ? this.viewjobP.length : endIndex;
+  return endIndex > this.viewJobP.length ? this.viewJobP.length : endIndex;
 }
 
 getPaginatedData(): ViewJobPosition[] {
   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
   const endIndex = this.currentPage * this.itemsPerPage;
-  return this.viewjobP.slice(startIndex, endIndex);
+  return this.viewJobP.slice(startIndex, endIndex);
 }
 
 
