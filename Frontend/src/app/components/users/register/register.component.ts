@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { User } from '../../../models/user';
 import { Pollster } from '../../../models/pollster';
+import { decryptData , environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,6 @@ user: User = {} as User;
 pollster : Pollster = {} as Pollster;
 errorMessage : string = ' ';
 successMessage : string = ' ';
-finalMessage :string = '';
 errorMessageToken : string = '';
 
 constructor(private userService: UsersService ){
@@ -70,26 +70,25 @@ createPollster() {
               () => {
                 this.successMessage = 'Encuestador creado exitosamente';
                 this.clearMessagesAfterDelay();
+                this.user = {} as User;
+                this.pollster = {} as Pollster;
               },
               (error) => {
-                console.error('Error al crear el encuestador', error);
-                this.errorMessage = 'Error al crear el encuestador';
-                this.clearMessagesAfterDelay();
+               throw new Error(error)
               }
             );
           },
           (error) => {
             if (error === 401) {
               this.errorMessageToken = 'Por favor, vuelva a iniciar sesión';
+              this.clearMessagesAfterDelay();
             }
         }
         );
       }
     },
     (error) => {
-      console.error('Error al verificar el correo electrónico', error);
-        this.errorMessage = 'Error al verificar el correo electrónico';
-        this.clearMessagesAfterDelay();
+        throw new Error(error)
     }
   );
 }
@@ -98,8 +97,8 @@ clearMessagesAfterDelay() {
   setTimeout(() => {
     this.errorMessage = '';
     this.successMessage = '';
-    this.finalMessage = '';
-  }, 7000);
+    this.errorMessageToken= '';
+  }, 3000);
 }
 
 }

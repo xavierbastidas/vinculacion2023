@@ -15,6 +15,7 @@ import { Injury } from '../models/injury';
 import { Diase } from '../models/diase';
 import { Medicine } from '../models/medicine';
 import { GripCapacity } from '../models/gripcapacity';
+import {ViewJobPosition}from '../models/viewjobposition';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class GetformService {
   constructor(private http : HttpClient) {
 
    }
-   getJobPosition() {
-    return this.http.get<JobPosition[]>(this.apiUrl + 'JobPosition');
+  getViewJobPosition() {
+    return this.http.get<ViewJobPosition[]>(this.apiUrl + 'viewJobPosition');
   }
 
   getWorker(id_puesto_trabajo: string) {
@@ -90,9 +91,9 @@ export class GetformService {
         return this.http.get<GripCapacity>(`${this.apiUrl}gripC/${id_trabajador_pertenece}`)
          }
 
-         getJobPositionID(id_encuestador_pertenece:number){
+         getViewJobPositionID(id_encuestador:number){
 
-          return this.http.get<JobPosition[]>(`${this.apiUrl}jobPosition/${id_encuestador_pertenece}`)
+          return this.http.get<ViewJobPosition[]>(`${this.apiUrl}viewJobPosition/${id_encuestador}`)
            }
   
            

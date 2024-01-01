@@ -29,8 +29,7 @@
             
             <div class="container">
                 <fieldset [disabled]="!datosActividad">
-                    
-
+ 
                 <form (ngSubmit)="valEval()" #evaluationForm="ngForm" enctype="multipart/form-data" >
                     <div>
                         <h2 class="text-center mb-4">Datos del Puesto</h2>
@@ -390,6 +389,11 @@
                            
                         </div>
                     </div>
+                    <div class="alert alert-danger d-inline-block" *ngIf="showErrorMessage">
+                        {{ showErrorMessage }}
+                      </div>
+                   
+                      
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary mt-3">Siguiente</button>
                     </div>
@@ -424,34 +428,34 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
                                     <div class="form-group text-center">
-                                        <label for="imagen1" class="form-label">Imagen 1:</label>
+                                        <label for="imagen1" class="form-label">Imagen 3:</label>
                                         <div class="input-group mb-3">
-                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen1" (change)="onFileSelected1($event, 'imagen1')" name="imagen1" accept="image/*">
+                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen3" (change)="onFileSelected1($event, 'imagen1')" name="imagen1" accept="image/*">
                                         </div>
                                         <div>
-                                            <img *ngIf="activityAux?.imagen1?.url" [src]="activityAux.imagen1.url" alt="Imagen 1">
+                                            <img *ngIf="activityAux?.imagen1?.url" [src]="activityAux.imagen1.url" alt="Imagen 3">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group text-center">
-                                        <label for="imagen2" class="form-label">Imagen 2:</label>
+                                        <label for="imagen2" class="form-label">Imagen 4:</label>
                                         <div class="input-group mb-3">
-                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen2" (change)="onFileSelected1($event, 'imagen2')" name="imagen2" accept="image/*">
+                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen4" (change)="onFileSelected1($event, 'imagen2')" name="imagen2" accept="image/*">
                                         </div>
                                         <div>
-                                            <img *ngIf="activityAux?.imagen2?.url" [src]="activityAux.imagen2.url" alt="Imagen 2">
+                                            <img *ngIf="activityAux?.imagen2?.url" [src]="activityAux.imagen2.url" alt="Imagen 4">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group text-center">
-                                        <label for="imagen3" class="form-label">Imagen 3:</label>
+                                        <label for="imagen3" class="form-label">Imagen 5:</label>
                                         <div class="input-group mb-3">
-                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen3" (change)="onFileSelected1($event, 'imagen3')" name="imagen3" accept="image/*">
+                                            <input type="file" class="mt-1 p-2 w-full border rounded-md" id="imagen5" (change)="onFileSelected1($event, 'imagen3')" name="imagen3" accept="image/*">
                                         </div>
                                         <div>
-                                            <img *ngIf="activityAux?.imagen3?.url" [src]="activityAux.imagen3.url" alt="Imagen 3">
+                                            <img *ngIf="activityAux?.imagen3?.url" [src]="activityAux.imagen3.url" alt="Imagen 5">
                                         </div>
                                     </div>
                                 </div>
@@ -547,6 +551,18 @@
                                  (keyup)="filtrarInput($event)">
                             </div>
                           
+                            <div class="alert alert-danger d-inline-block" *ngIf="showErrorMessage">
+                                {{ showErrorMessage }}
+                              </div>
+                              
+                              <div class="alert alert-success d-inline-block" *ngIf="showSuccessMessage">
+                                {{ showSuccessMessage }}
+                              </div>
+                              
+                              <div class="alert alert-warning d-inline-block" *ngIf="showTokenMessage">
+                                {{ showTokenMessage }}
+                              </div>
+                              
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mt-3">Almacenar</button>
                             </div>

@@ -4,7 +4,7 @@ import { Campus } from '../../../models/campus';
 import { JobPosition } from '../../../models/jposition';
 import { Worker } from '../../../models/worker';
 import { UploadService } from '../../../services/upload.service';
-import { forkJoin, isEmpty, map, throwError } from 'rxjs';
+import { forkJoin, map } from 'rxjs';
 import { FlootMeasurements } from '../../../models/fmeasures';
 import { ViewChild, ElementRef } from '@angular/core';
 import { SittingMeasurements } from '../../../models/smeasures';
@@ -47,7 +47,6 @@ export class RegistersurveyComponent implements OnInit{
   mostrarFormularioDatosActividad: boolean = false;
   datosAntropometricos: boolean = false;
   datosActividad : boolean = true;
-  seleccionados: string[] = [];
   muscleA : MuscleActivity = {} as MuscleActivity;
   forceType : ForceType = {} as ForceType;
   forceExerted : ForceExerted = {} as ForceExerted;
@@ -56,6 +55,9 @@ export class RegistersurveyComponent implements OnInit{
   diase : Diase = {} as Diase;
   medicine : Medicine =  {} as Medicine ;
   gripC : GripCapacity = {} as GripCapacity;
+  showErrorMessage : string = '';
+  showSuccessMessage : string = '';
+  showTokenMessage : string = '';
 
   
   
@@ -90,6 +92,52 @@ export class RegistersurveyComponent implements OnInit{
     this.formAntr.nativeElement.scrollIntoView({ behavior: 'smooth' });
 }
 
+clearMessagesAfterDelay() {
+  setTimeout(() => {
+    this.showErrorMessage = '';
+    this.showSuccessMessage= '';
+    this.showTokenMessage= '';
+  }, 3000);
+}
+
+
+clearFields(): void {
+  this.campus = [];
+  this.selectedCampus = {} as Campus;
+  this.jobP = {} as JobPosition;
+  this.worker = {} as Worker;
+  this.flootM = {} as FlootMeasurements;
+  this.sittingM = {} as SittingMeasurements;
+  this.segmentM = {} as SegmentMeasurements;
+  this.functionalM = {} as FunctionalMeasurements;
+  this.gripF = {} as GripFeatures;
+  this.injury = {} as Injury;
+  this.diase = {} as Diase;
+  this.medicine = {} as Medicine;
+  this.gripC = {} as GripCapacity;
+  this.activity = {} as Activity;
+  this.muscleA = {} as MuscleActivity;
+  this.forceType = {} as ForceType;
+  this.forceExerted = {} as ForceExerted;
+}
+
+clearActivityImages(): void {
+  this.workerAux = null;
+  this.activityAux = null;
+  const input1 = document.getElementById('imagen1') as HTMLInputElement;
+  const input2 = document.getElementById('imagen2') as HTMLInputElement;
+  const input3 = document.getElementById('imagen3') as HTMLInputElement;
+  const input4 = document.getElementById('imagen4') as HTMLInputElement;
+  const input5 = document.getElementById('imagen5') as HTMLInputElement;
+
+    input1.value = '';
+    input2.value = '';
+    input3.value = '';
+    input4.value = '';
+    input5.value = '';
+}
+
+
 mostrarDatosActividad() {
     this.mostrarFormularioAntropometricas = false;
     this.mostrarFormularioDatosActividad = true;
@@ -99,7 +147,7 @@ mostrarDatosActividad() {
   
 validateSelection() {
   if (this.forceExerted.fuerza_brusca === null || this.forceExerted.fuerza_brusca === undefined) {
-    alert('Por favor, selecciona SI o NO');
+    this.showErrorMessage='Por favor, selecciona SI o NO';
     return false; 
   }
   return true; 
@@ -113,7 +161,7 @@ validateSelection() {
         this.campus = data; 
       },
       error => {
-        console.error('Error al obtener campus:', error);
+       throw new Error (error)
       }
     );
   }
@@ -170,7 +218,8 @@ validateSelection() {
      
       const noneSelected = !Object.values(this.forceType).some(value => value);
       if (noneSelected) {
-        console.log('Por favor, selecciona al menos una opción.');
+        this.showErrorMessage='Por favor, selecciona al menos una opción.';
+        this.clearMessagesAfterDelay();
       }
     }
   }
@@ -187,7 +236,8 @@ validateSelection() {
        };
       const noneSelected = !Object.values(this.gripF).some(value => value === true);
       if (noneSelected) {
-        console.log('Por favor, selecciona al menos una opción.');
+        this.showErrorMessage='Por favor, selecciona al menos una opción.';
+        this.clearMessagesAfterDelay();
       }
     }
   }
@@ -207,7 +257,8 @@ validateSelection() {
   
     if (selectedKeys.length === 0) {
     
-      console.log("Debes seleccionar al menos un elemento.");
+      this.showErrorMessage="Debes seleccionar al menos un elemento.";
+      this.clearMessagesAfterDelay();
     } 
   }
   
@@ -219,7 +270,8 @@ validateSelection() {
     
       for (const obj of objectsToCheck) {
         if (Object.keys(obj).length === 0 || Object.values(obj).some(val => val === null || val === '')) {
-          alert('Por favor, ingrese datos válidos para la evaluación');
+          this.showErrorMessage='Por favor, ingrese datos válidos para la evaluación';
+          this.clearMessagesAfterDelay();
           return false;
         }
       }
@@ -228,12 +280,14 @@ validateSelection() {
       const valCedula = this.validarCedula(this.jobP.id_puesto_trabajo);
   
       if (!valCedula) {
-        alert('Por favor, ingrese una cédula válida');
+        this.showErrorMessage='Por favor, ingrese una cédula válida';
+        this.clearMessagesAfterDelay();
         return false;
       }
   
       if (response) {
-        alert('Evaluación existente, por favor ingrese otro ID de puesto de trabajo');
+        this.showErrorMessage='Evaluación existente, por favor ingrese otro ID de puesto de trabajo';
+        this.clearMessagesAfterDelay();
         return false;
       } else {
         this.datosAntropometricos = true;
@@ -297,8 +351,8 @@ validateSelection() {
   
   filtrarEdad(event: Event) {
     const input = (event.target as HTMLInputElement).value;
-    const filteredValue = input.replace(/\D/g, ''); // Solo números permitidos
-    const maxLength = 3; // Máximo de 3 dígitos permitidos
+    const filteredValue = input.replace(/\D/g, ''); 
+    const maxLength = 3; 
     if (filteredValue.length > maxLength) {
       
       (event.target as HTMLInputElement).value = filteredValue.slice(0, maxLength);
@@ -316,8 +370,8 @@ validateSelection() {
   
   filtrarIdPuesto(event: Event) {
     const input = (event.target as HTMLInputElement).value;
-    const filteredValue = input.replace(/\D/g, ''); // Filtra solo números
-    const maxLength = 10; // Máximo de 10 caracteres permitidos
+    const filteredValue = input.replace(/\D/g, ''); 
+    const maxLength = 10; 
     if (filteredValue.length > maxLength) {
       (event.target as HTMLInputElement).value = filteredValue.slice(0, maxLength);
     } else {
@@ -358,11 +412,10 @@ validateSelection() {
     const valActivity = this.valActivity();
   
     if(valActivity ){
-      alert('Por favor, Ingrese datos válidos para la evaluación');
+      this.showErrorMessage='Por favor, Ingrese datos válidos para la evaluación';
+      this.clearMessagesAfterDelay();
       return;
     }
-
-   
 
     const id_usuario_pertenece = this.userService.getUserIdFromToken();
     this.formService.getIdPollster(id_usuario_pertenece).subscribe(
@@ -378,13 +431,14 @@ validateSelection() {
           ()=>{ 
           },(error)=>{
             if (error === 401) {
-              alert('Por favor, vuelva a iniciar sesión');
+              this.showTokenMessage='Por favor, vuelva a iniciar sesión';
+              this.clearMessagesAfterDelay();
             }
           }
         )
       },
       (error) => {
-        console.error('Error al obtener el ID del encuestador:', error);
+       throw new Error(error);
       }
     );
     
@@ -394,7 +448,8 @@ validateSelection() {
 
     const valImg = this.valImg(image1,image2);
     if (!valImg) {
-      alert('No se han seleccionado todas las imágenes.');
+      this.showErrorMessage='No se han seleccionado todas las imágenes.';
+      this.clearMessagesAfterDelay();
       return;
     }
     const uploadImage1$ = this.uploadService.uploadImage(image1);
@@ -534,7 +589,8 @@ validateSelection() {
             const img3 = this.activityAux.imagen3.file;
             const valImgs = this.valImg(img1,img2,img3);
             if (!valImgs) {
-              alert('No se han seleccionado todas las imágenes.');
+              this.showErrorMessage='No se han seleccionado todas las imágenes.';
+              this.clearMessagesAfterDelay();
               return;
             }
             const uploadImg1$ = this.uploadService.uploadImage(img1);
@@ -612,7 +668,8 @@ validateSelection() {
                                 }
                               )
                              }else{
-                              throw new Error('Debes seleccionar Si o No Porvavor')
+                              this.showErrorMessage='Debes seleccionar Si o No Porfavor';
+                              this.clearMessagesAfterDelay();
                              }
                             
                         },(error)=>{
@@ -623,20 +680,8 @@ validateSelection() {
                     
                   this.formService.gripFeatures(gripFeatures).subscribe(
                     ()=>{
-
-                    },(error)=>{
-                      throw new Error(error)
-                    }
-                  )
-                  },(error)=>{
-                    throw new Error(error)
-                  }
-                )
-              }
-            );
-            
-          
-     //questions to workers
+                     
+                          
 
    this.formService.Injury(injury).subscribe(
     ()=>{
@@ -664,7 +709,12 @@ validateSelection() {
       
    this.formService.gripCapacity(gripcapacity).subscribe(
     ()=>{
-      alert('Evaluacion creada exitosamente')
+     this.showSuccessMessage='Evaluacion creada exitosamente';
+     this.clearMessagesAfterDelay();
+     this.datosActividad =true;
+     this.datosAntropometricos=false;
+     this.clearFields();
+     this.clearActivityImages();
     },(error)=>{
       throw new Error(error)
     }
@@ -675,6 +725,20 @@ validateSelection() {
      ) 
      }
     );
+
+                    },(error)=>{
+                      throw new Error(error)
+                    }
+                  )
+                  },(error)=>{
+                    throw new Error(error)
+                  }
+                )
+              }
+            );
+            
+          
+
 
   }
   

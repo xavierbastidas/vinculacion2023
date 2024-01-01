@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GetformService } from '../../../../services/getform.service';
-import { JobPosition } from '../../../../models/jposition';
 import { Worker } from '../../../../models/worker';
 import { FlootMeasurements } from '../../../../models/fmeasures';
 import { SittingMeasurements } from '../../../../models/smeasures';
@@ -15,6 +14,7 @@ import { Injury } from '../../../../models/injury';
 import { Diase } from '../../../../models/diase';
 import { Medicine } from '../../../../models/medicine';
 import { GripCapacity } from '../../../../models/gripcapacity';
+import { ViewJobPosition } from '../../../../models/viewjobposition';
 
 @Component({
   selector: 'app-viewsurveys',
@@ -22,7 +22,7 @@ import { GripCapacity } from '../../../../models/gripcapacity';
   styleUrl: './viewsurveys.component.css'
 })
 export class ViewsurveysComponent implements OnInit {
-  jobP: JobPosition[] = [];
+  viewjobP: ViewJobPosition[] = [];
   worker : Worker [] =  [];
   flootM : FlootMeasurements [] = [];
   sittingM :SittingMeasurements [] = [];
@@ -52,13 +52,12 @@ export class ViewsurveysComponent implements OnInit {
 
   getEval() {
 
-
-    
-    this.getFormService.getJobPosition().subscribe(
+    this.getFormService.getViewJobPosition().subscribe(
       (positions: any[]) => {
-        this.jobP = positions;
+      
+        this.viewjobP = positions;
         positions.forEach(x => {
-          this.getFormService.getWorker(x.id_puesto_trabajo).subscribe(
+          this.getFormService.getWorker(x.puesto_trabajo).subscribe(
             (res: any) => {
               this.worker.push(res);
               this.getFormService.getFlootMeasurements(res.id_trabajador).subscribe(
@@ -183,7 +182,7 @@ export class ViewsurveysComponent implements OnInit {
   }
   
     getPages(): number[] {
-      return Array(Math.ceil(this.jobP.length / this.itemsPerPage)).fill(0).map((x, i) => i + 1);
+      return Array(Math.ceil(this.viewjobP.length / this.itemsPerPage)).fill(0).map((x, i) => i + 1);
     }
 
   showAllData() {
@@ -203,7 +202,7 @@ nextPage() {
 }
 
 get totalPages(): number {
-  return Math.ceil(this.jobP.length / this.itemsPerPage);
+  return Math.ceil(this.viewjobP.length / this.itemsPerPage);
 }
 
 get firstItemOnPage(): number {
@@ -212,20 +211,20 @@ get firstItemOnPage(): number {
 
 get lastItemOnPage(): number {
   const endIndex = this.currentPage * this.itemsPerPage;
-  return endIndex > this.jobP.length ? this.jobP.length : endIndex;
+  return endIndex > this.viewjobP.length ? this.viewjobP.length : endIndex;
 }
 
-getPaginatedData(): JobPosition[] {
+getPaginatedData(): ViewJobPosition[] {
   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
   const endIndex = this.currentPage * this.itemsPerPage;
-  return this.jobP.slice(startIndex, endIndex);
+  return this.viewjobP.slice(startIndex, endIndex);
 }
 
 
 openEvaluationWindow(position: any) {
 
 
-  const filteredWorkers = this.worker.filter(worker => worker.id_puesto_trabajo === position.id_puesto_trabajo);
+  const filteredWorkers = this.worker.filter(worker => worker.id_puesto_trabajo === position.puesto_trabajo);
   const filteredFlootM = this.flootM.filter(flooM => {
     return filteredWorkers.some(worker => worker.id_trabajador === flooM.id_trabajador_pertenece);
   });
@@ -320,12 +319,12 @@ const filteredGripCapacity = this.gripCapacity.filter(gripC => {
     </style>
   
     <script>
-      function printPDF() {
-        const printButton = document.getElementById('printButton');
-        printButton.style.display = 'none'; 
-        window.print(); 
-        printButton.style.display = 'block'; 
-      }
+    function printPDF() {
+      const printButton = document.getElementById('printButton');
+      printButton.style.display = 'none'; 
+      window.print(); 
+      printButton.style.display = 'block'; 
+    } 
     </script>
   </head>
   <body>
@@ -335,10 +334,10 @@ const filteredGripCapacity = this.gripCapacity.filter(gripC => {
       <div class="data-section">
         <h2>Datos del Puesto</h2>
         <ul class="list-group">
-          <li class="list-group-item"><strong>ID Puesto de Trabajo:</strong> ${position.id_puesto_trabajo}</li>
-          <li class="list-group-item"><strong>Departamento/Área:</strong> ${position.departamento_area}</li>
-          <li class="list-group-item"><strong>ID Campus:</strong> ${position.id_campus_pertenece}</li>
-          <li class="list-group-item"><strong>ID Encuestador:</strong> ${position.id_encuestador_pertenece}</li>
+          <li class="list-group-item"><strong>ID Puesto de Trabajo:</strong> ${position.puesto_trabajo}</li>
+          <li class="list-group-item"><strong>Departamento/Área:</strong> ${position.departamento}</li>
+          <li class="list-group-item"><strong>Campus:</strong> ${position.nombre_campus}</li>
+          <li class="list-group-item"><strong>Encuestador:</strong> ${position.nombre_apellido_encuestador }</li>
         </ul>
       </div>
       
@@ -709,8 +708,8 @@ const filteredGripCapacity = this.gripCapacity.filter(gripC => {
 </div>
   </div>
     </div>
-    <div class="text-center">
-      <button id="printButton" onclick="printPDF()" class="btn btn-primary">Imprimir</button>
+    <div >
+    <button id="printButton" onclick="printPDF()" class="btn btn-secondary">Imprimir</button>
     </div>
   </body>
   </html>

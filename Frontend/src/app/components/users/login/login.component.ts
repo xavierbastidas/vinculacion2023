@@ -39,8 +39,8 @@ export class LoginComponent  implements OnInit{
   private handleSignInSuccess(response: any): void {
     const encryptedT = encryptData(response.token, String( environment.SECRET));
     const encryptedN = encryptData(response.nombre, String( environment.SECRET));
-    this.cookieService.set('2J_JER', encryptedT);
-    this.cookieService.set('3P_ZAP', encryptedN);
+    this.cookieService.set('2J_JER', encryptedT,undefined,'/');
+    this.cookieService.set('3P_ZAP', encryptedN,undefined,'/');
     const id_rol = Number(response.id_rol); 
     if (id_rol === 1) {
       this.router.navigate(['/sistema-mediciones/admin']);

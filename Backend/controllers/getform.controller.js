@@ -1,5 +1,4 @@
 import Worker from '../models/Worker.js';
-import JobPosition from '../models/JobPosition.js';
 import FlootMeasurements from '../models/FlootMeasurements.js';
 import SittingMeasurements from '../models/SittingMeasurements.js';
 import SegmentMeasurements from '../models/SegmentMeasurements.js';
@@ -13,26 +12,31 @@ import Injury from  '../models/Injury.js';
 import Diase  from '../models/Diase.js';
 import Medicine from '../models/Medicine.js';
 import GripCapacity from '../models/GripCapacity.js';
-export const getJobPosition = async (req,res)=>{
- try {
-    const jobPosition = await JobPosition.findAll();
-    const jobPositionArray = jobPosition.map(jobPosition=>jobPosition.toJSON());
-    res.json(jobPositionArray);
- } catch (error) {
-    res.status(500).json({error:error.message,});
- }
-};
+import ViewJobPosition from '../models/ViewJobPosition.js';
 
-export const getJobPositionID = async (req,res)=>{
-    const {id_encuestador_pertenece} =  req.params;
+
+export const getViewJobPosition = async (req,res)=>{
     try {
-        const jopPosition  = await JobPosition.findAll({where:{id_encuestador_pertenece}});
-        if(!jopPosition){
-            return res.status(404).json({error:"Pollster not found"});
-        }
-        res.json(jopPosition);
+       const viewJobPosition = await ViewJobPosition.findAll();
+       const viewJobPositionArray = viewJobPosition.map(viewJobPosition=>viewJobPosition.toJSON());
+       res.json(viewJobPositionArray);
     } catch (error) {
        res.status(500).json({error:error.message,});
+    }
+   };
+
+
+   
+   export const getViewJobPositionID = async (req,res)=>{
+    const {id_encuestador} =  req.params;
+    try {
+        const jobPosition  = await ViewJobPosition.findAll({where:{id_encuestador}});
+        if(jobPosition.length===0){
+            return res.status(404).json({error:"Job Position not found"});
+        }
+        res.json(jobPosition);
+    } catch (error) {
+       res.status(500).json({error:error.message});
     }
    };
    
@@ -59,8 +63,6 @@ export const getWorker =  async (req,res)=>{
         res.status(500).json({error:error.message});
     }
 }
-
-
 
 export const flootMeasurements =  async (req,res)=>{
     const {id_trabajador_pertenece} =  req.params;

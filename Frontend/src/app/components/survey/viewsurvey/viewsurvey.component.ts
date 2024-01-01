@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { JobPosition } from '../../../models/jposition';
 import { Worker } from '../../../models/worker';
 import { FlootMeasurements } from '../../../models/fmeasures';
 import { SittingMeasurements } from '../../../models/smeasures';
@@ -17,6 +16,7 @@ import { GripCapacity } from '../../../models/gripcapacity';
 import { GetformService } from '../../../services/getform.service';
 import { UsersService } from '../../../services/users.service';
 import { FormService } from '../../../services/form.service';
+import { ViewJobPosition } from '../../../models/viewjobposition';
 
 
 @Component({
@@ -25,7 +25,7 @@ import { FormService } from '../../../services/form.service';
   styleUrl: './viewsurvey.component.css'
 })
 export class ViewsurveyComponent implements OnInit {
-  jobP: JobPosition[] = [];
+  viewJobP : ViewJobPosition[] =[];
   worker : Worker [] =  [];
   flootM : FlootMeasurements [] = [];
   sittingM :SittingMeasurements [] = [];
@@ -61,11 +61,11 @@ export class ViewsurveyComponent implements OnInit {
     const id_usuario_pertenece = this.userService.getUserIdFromToken();
     this.formService.getIdPollster(id_usuario_pertenece).subscribe(
       (response)=>{
-     this.getFormService.getJobPositionID(response).subscribe(
+     this.getFormService.getViewJobPositionID(response).subscribe(
       (positions:any[]) => {
-        this.jobP = positions;
+        this.viewJobP= positions;
         positions.forEach(x=> {
-          this.getFormService.getWorker(x.id_puesto_trabajo).subscribe(
+          this.getFormService.getWorker(x.puesto_trabajo).subscribe(
             (res: any) => {
               this.worker.push(res);
               this.getFormService.getFlootMeasurements(res.id_trabajador).subscribe(
@@ -150,7 +150,7 @@ export class ViewsurveyComponent implements OnInit {
                         (forceE)=>{
                           this.forceExerted.push(forceE);
                         },(error)=>{
-                          //forceExerted
+
                         }
                       )
                     },(error)=>{
@@ -198,7 +198,7 @@ export class ViewsurveyComponent implements OnInit {
    }
    
      getPages(): number[] {
-       return Array(Math.ceil(this.jobP.length / this.itemsPerPage)).fill(0).map((x, i) => i + 1);
+       return Array(Math.ceil(this.viewJobP.length / this.itemsPerPage)).fill(0).map((x, i) => i + 1);
      }
  
    showAllData() {
@@ -218,7 +218,7 @@ export class ViewsurveyComponent implements OnInit {
  }
  
  get totalPages(): number {
-   return Math.ceil(this.jobP.length / this.itemsPerPage);
+   return Math.ceil(this.viewJobP.length / this.itemsPerPage);
  }
  
  get firstItemOnPage(): number {
@@ -227,20 +227,22 @@ export class ViewsurveyComponent implements OnInit {
  
  get lastItemOnPage(): number {
    const endIndex = this.currentPage * this.itemsPerPage;
-   return endIndex > this.jobP.length ? this.jobP.length : endIndex;
+   return endIndex > this.viewJobP.length ? this.viewJobP.length : endIndex;
  }
  
- getPaginatedData(): JobPosition[] {
+ getPaginatedData(): ViewJobPosition[] {
    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
    const endIndex = this.currentPage * this.itemsPerPage;
-   return this.jobP.slice(startIndex, endIndex);
+   return this.viewJobP.slice(startIndex, endIndex);
  }
  
  
  openEvaluationWindow(position: any) {
  
  
-   const filteredWorkers = this.worker.filter(worker => worker.id_puesto_trabajo === position.id_puesto_trabajo);
+   const filteredWorkers = this.worker.filter(worker => worker.id_puesto_trabajo === position.puesto_trabajo);
+
+   
    const filteredFlootM = this.flootM.filter(flooM => {
      return filteredWorkers.some(worker => worker.id_trabajador === flooM.id_trabajador_pertenece);
    });
@@ -335,12 +337,14 @@ export class ViewsurveyComponent implements OnInit {
      </style>
    
      <script>
-       function printPDF() {
-         const printButton = document.getElementById('printButton');
-         printButton.style.display = 'none'; 
-         window.print(); 
-         printButton.style.display = 'block'; 
-       }
+    
+     function printPDF() {
+      const printButton = document.getElementById('printButton');
+      printButton.style.display = 'none'; 
+      window.print(); 
+      printButton.style.display = 'block'; 
+    } 
+  
      </script>
    </head>
    <body>
@@ -350,10 +354,9 @@ export class ViewsurveyComponent implements OnInit {
        <div class="data-section">
          <h2>Datos del Puesto</h2>
          <ul class="list-group">
-           <li class="list-group-item"><strong>ID Puesto de Trabajo:</strong> ${position.id_puesto_trabajo}</li>
-           <li class="list-group-item"><strong>Departamento/Área:</strong> ${position.departamento_area}</li>
-           <li class="list-group-item"><strong>ID Campus:</strong> ${position.id_campus_pertenece}</li>
-           <li class="list-group-item"><strong>ID Encuestador:</strong> ${position.id_encuestador_pertenece}</li>
+           <li class="list-group-item"><strong>ID Puesto de Trabajo:</strong> ${position.puesto_trabajo}</li>
+           <li class="list-group-item"><strong>Departamento/Área:</strong> ${position.departamento}</li>
+           <li class="list-group-item"><strong>Campus:</strong> ${position.nombre_campus}</li>
          </ul>
        </div>
        
@@ -724,8 +727,8 @@ export class ViewsurveyComponent implements OnInit {
  </div>
    </div>
      </div>
-     <div class="text-center">
-       <button id="printButton" onclick="printPDF()" class="btn btn-primary">Imprimir</button>
+     <div >
+     <button id="printButton" onclick="printPDF()" class="btn btn-secondary">Imprimir</button>
      </div>
    </body>
    </html>

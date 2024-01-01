@@ -32,24 +32,21 @@ export class UsersService {
     return this.http.post<User>(this.apiUrl+'login',user);
   }
   loggedIn() {
-  return  this.cookieService.check('2J_JER');
+  return  (this.cookieService.check('2J_JER') && this.cookieService.check('3P_ZAP'));
   }
   getToken(){
     return this.cookieService.get('2J_JER');
   }
-  logout(){
-   this.cookieService.delete('2J_JER');
-   this.cookieService.delete('3P_ZAP');
-   this.router.navigate(['/sistema-mediciones/login']);
+  logout() {
+    this.cookieService.delete('2J_JER','/');
+    this.cookieService.delete('3P_ZAP','/');    
+    this.router.navigate(['/sistema-mediciones/login']);
   }
 
   getIdRole(id_usuario: number) {
     return this.http.get<number>(`${this.apiUrl}/${id_usuario}`);
   }
 
-
- 
-  
   getUserIdFromToken() {
     const JJER = this.getToken();
     const token  = decryptData(JJER,environment.SECRET);

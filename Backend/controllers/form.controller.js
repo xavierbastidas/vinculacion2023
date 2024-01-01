@@ -26,7 +26,7 @@ export const createJobPosition = async (req,res)=>{
     await jobPosition.save()
     res.status(201).json({job_position:jobPosition})
   } catch (error) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -66,7 +66,7 @@ export const flootMeasurements= async(req,res)=>{
       await flootMeasurements.save();
       res.status(201).json({flootMeasures:flootMeasurements});
   } catch (error) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message});
   }
 
 }
@@ -87,7 +87,7 @@ export const sittingMeasurements  = async (req,res)=>{
     await sittingMeasurements.save();
     res.status(201).json({sittingMeasures:sittingMeasurements});
   } catch (error) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -105,7 +105,7 @@ export const segmentMeasurements = async (req,res)=>{
    await segmentMeasurements.save();
    res.status(201).json({segmentMeasures:segmentMeasurements});
   } catch (error) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -121,7 +121,7 @@ export const functionalMeasurements = async (req,res)=>{
     await functionalMeasurements.save();
     res.status(201).json({functionalMeasures:functionalMeasurements});
   } catch (error) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -137,7 +137,7 @@ export const createActivity = async (req,res)=>{
     
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -153,7 +153,7 @@ export const createMuscleActivity = async (req,res)=>{
     
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -169,7 +169,7 @@ export const addForceType = async (req,res)=>{
     
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -184,7 +184,7 @@ export const addForceExerted = async (req,res)=>{
     
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 export const addGripFeatures = async (req,res)=>{
@@ -197,7 +197,7 @@ export const addGripFeatures = async (req,res)=>{
     
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -211,7 +211,7 @@ export const addInjury = async (req,res)=>{
     
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -224,7 +224,7 @@ export const addDiase = async (req,res)=>{
       res.status(201).json({diase:diase});
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -237,7 +237,7 @@ export const addMedicine = async (req,res)=>{
       res.status(201).json({medicine:medicine});
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -250,14 +250,9 @@ export const addGripCapacity = async (req,res)=>{
       res.status(201).json({gripCapacity:gripCapacity});
   } catch (error
   ) {
-    res.status(500).json({error:error});
+    res.status(500).json({ error: error.message });
   }
 }
-
-
-
-
-
 
 export const getIdPollster = async (req, res) => {
   const { id_usuario_pertenece } = req.params; 
@@ -268,7 +263,7 @@ export const getIdPollster = async (req, res) => {
     }
     res.json(id_encuestador);
   } catch (error) {
-    return res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -283,8 +278,6 @@ export const getCampus = async (req,res)=>{
         res.status(500).json({error:error})
     }
 };
-
-
 
 export const checkIdPuestoBD  = async (req,res)=>{
   const {id_puesto_trabajo} = req.body;
