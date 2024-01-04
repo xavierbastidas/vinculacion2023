@@ -728,19 +728,22 @@ const filteredGripCapacity = this.gripCapacity.filter(gripC => {
 `;
 
 
-const width = 900;
-const height = 900;
-const left = window.screenLeft + (window.innerWidth / 2) - (width / 2);
-const top = window.screenTop + (window.innerHeight / 2) - (height / 2);
-const evaluationWindow = window.open('', '_blank', `width=${width}, height=${height}, left=${left}, top=${top}`);
-  if (evaluationWindow) {
-    evaluationWindow.document.write(content);
-    evaluationWindow.document.close(); 
-    evaluationWindow.focus();
-  } else {
-    
-    alert('La ventana emergente fue bloqueada. Por favor, habilite las ventanas emergentes para ver la evaluación.');
-  }
+const width = screen.width;
+ const height = screen.height;
+ const left = 0;
+ const top = 0;
+ const evaluationWindow = window.open('', '_blank', `width=${width}, height=${height}, left=${left}, top=${top}`);
+ 
+ if (evaluationWindow) {
+   evaluationWindow.moveTo(0, 0);
+   evaluationWindow.resizeTo(screen.availWidth, screen.availHeight);
+   evaluationWindow.document.write(content);
+   evaluationWindow.document.close();
+   evaluationWindow.focus();
+ } else {
+   alert('La ventana emergente fue bloqueada. Por favor, habilite las ventanas emergentes para ver la evaluación.');
+ }
+ 
 }
 
 

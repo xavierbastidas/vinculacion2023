@@ -38,7 +38,7 @@ export class LoginComponent  implements OnInit{
         }
       },
       (err) => {
-        this.handleSignInError('Error de conexión o servidor');
+        this.handleSignInError('Error en la autenticación del usuario');
       }
     );
   }
