@@ -1,4 +1,4 @@
-# Vinculacion2023 
+# Vinculacion 2023-2024
 - Jonathan Bastidas
 - Aida Cocha
 - Jairo Lascano
