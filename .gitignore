@@ -1,5 +1,4 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-.env
 **/Backend/node_modules/
 **/Frontend/node_modules/
 **/Frontend/.vscode/
