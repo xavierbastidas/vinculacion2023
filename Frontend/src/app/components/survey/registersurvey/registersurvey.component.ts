@@ -97,7 +97,7 @@ clearMessagesAfterDelay() {
     this.showErrorMessage = '';
     this.showSuccessMessage= '';
     this.showTokenMessage= '';
-  }, 3000);
+  }, 5000);
 }
 
 

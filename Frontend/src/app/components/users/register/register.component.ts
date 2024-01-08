@@ -98,7 +98,7 @@ clearMessagesAfterDelay() {
     this.errorMessage = '';
     this.successMessage = '';
     this.errorMessageToken= '';
-  }, 3000);
+  }, 5000);
 }
 
 }

@@ -37,7 +37,7 @@ export class LoginComponent  implements OnInit{
           this.handleSignInSuccess(res);
         }
       },
-      (err) => {
+      () => {
         this.handleSignInError('Error en la autenticación del usuario');
       }
     );
@@ -45,10 +45,10 @@ export class LoginComponent  implements OnInit{
   
   private handleSignInSuccess(response: any): void {
     const { token, nombre, id_rol } = response;
-    const encryptedT = encryptData(token, String(environment.SECRET));
-    const encryptedN = encryptData(nombre, String(environment.SECRET));
-    this.cookieService.set('2J_JER', encryptedT, undefined, '/');
-    this.cookieService.set('3P_ZAP', encryptedN, undefined, '/');
+    const encryptedToken = encryptData(token, String(environment.SECRET));
+    const encryptedName = encryptData(nombre, String(environment.SECRET));
+    this.cookieService.set('2J_JER', encryptedToken, undefined, '/');
+    this.cookieService.set('3P_ZAP', encryptedName, undefined, '/');
     
     const roleId = Number(id_rol); 
     if (roleId === 1) {

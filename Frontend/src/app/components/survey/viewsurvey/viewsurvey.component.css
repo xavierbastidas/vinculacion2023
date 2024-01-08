@@ -1,7 +1,7 @@
-/* Estilo para los botones de navegación y botón Ver Evaluación */
+
 .btn-navegacion,
 .btn-ver-evaluacion {
-  margin-bottom: 10px; /* Agrega espacio entre los botones */
+  margin-bottom: 10px; 
 }
 
 .btn-ver-evaluacion {
